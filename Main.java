@@ -8,7 +8,7 @@ import java.util.List;
  * <a href="http://www.jflex.de/">JFlex</a> 1.6.1
  * from the specification file <tt>part1.flex</tt>
  */
-class MyScanner {
+class Main {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -311,7 +311,7 @@ class MyScanner {
    *
    * @param   in  the java.io.Reader to read input from.
    */
-  MyScanner(java.io.Reader in) {
+  Main(java.io.Reader in) {
     this.zzReader = in;
   }
 
@@ -945,7 +945,7 @@ class MyScanner {
    */
   public static void main(String argv[]) {
     if (argv.length == 0) {
-      System.out.println("Usage : java MyScanner [ --encoding <name> ] <inputfile(s)>");
+      System.out.println("Usage : java Main [ --encoding <name> ] <inputfile(s)>");
     }
     else {
       int firstFilePos = 0;
@@ -961,11 +961,11 @@ class MyScanner {
         }
       }
       for (int i = firstFilePos; i < argv.length; i++) {
-        MyScanner scanner = null;
+        Main scanner = null;
         try {
           java.io.FileInputStream stream = new java.io.FileInputStream(argv[i]);
           java.io.Reader reader = new java.io.InputStreamReader(stream, encodingName);
-          scanner = new MyScanner(reader);
+          scanner = new Main(reader);
           while ( !scanner.zzAtEOF ) scanner.yylex();
         }
         catch (java.io.FileNotFoundException e) {
