@@ -2,7 +2,7 @@ begin
   read(a) ;
   read(b) ;
   while b <> 0 do
-    c := b ;
+    c := b-5 ;
     while a >= b do
       a := a-b
     done ;

@@ -20,6 +20,11 @@ import java.util.List;
             listSymbols.add(newSymbol.getValue());
         }
     }
+    public Symbol createAndDisplaySymbols(LexicalUnit unit, int line, int column, Object value){
+        Symbol newSymbol = new Symbol(unit,line,column,value);
+        System.out.println(newSymbol.toString());
+        return newSymbol;
+    }
 %}
 
 %eof{
@@ -39,10 +44,9 @@ import java.util.List;
 ALPHA = [a-zA-Z]
 NUM = [0-9]
 NUM_1_9 = [1-9]
-UNDERSCORE = "_"
 // Extended Regular Expressions
 
-VARNAME = {ALPHA}({ALPHA} | {NUM} |{UNDERSCORE})*
+VARNAME = {ALPHA}({ALPHA} | {NUM})*
 NUMBER = {NUM_1_9}[0-9]* | 0
 BEGIN = "begin"
 END = "end"
@@ -89,180 +93,110 @@ END_COMMENT = "*)"
 <YYINITIAL> {
     // Relational operators
     {NUMBER}        {
-        Symbol newSymbol = new Symbol(LexicalUnit.NUMBER,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.NUMBER,yyline,yycolumn,yytext());
     }
     {BEGIN}         {
-        Symbol newSymbol = new Symbol(LexicalUnit.BEGIN,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.BEGIN,yyline,yycolumn,yytext());
     }
     {END}           {
-        Symbol newSymbol = new Symbol(LexicalUnit.END,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.END,yyline,yycolumn,yytext());
     }
     {SEMICOLON}     {
-        Symbol newSymbol = new Symbol(LexicalUnit.SEMICOLON,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.SEMICOLON,yyline,yycolumn,yytext());
     }
     {IF}            {
-        Symbol newSymbol = new Symbol(LexicalUnit.IF,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.IF,yyline,yycolumn,yytext());
     }
     {Assign}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.ASSIGN,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.ASSIGN,yyline,yycolumn,yytext());
     }
     {LPAREN}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.LPAREN,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.LPAREN,yyline,yycolumn,yytext());
     }
     {RPAREN}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.RPAREN,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.RPAREN,yyline,yycolumn,yytext());
     }
     {MINUS}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.MINUS,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.MINUS,yyline,yycolumn,yytext());
     }
     {PLUS}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.PLUS,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.PLUS,yyline,yycolumn,yytext());
     }
-    //
     {TIMES}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.TIMES,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.TIMES,yyline,yycolumn,yytext());
     }
     {DIVIDE}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.DIVIDE,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.DIVIDE,yyline,yycolumn,yytext());
     }
     {THEN}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.THEN,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.THEN,yyline,yycolumn,yytext());
     }
     {ENDIF}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.ENDIF,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.ENDIF,yyline,yycolumn,yytext());
     }
     {ELSE}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.ELSE,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.ELSE,yyline,yycolumn,yytext());
     }
     {NOT}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.NOT,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.NOT,yyline,yycolumn,yytext());
     }
     {AND}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.AND,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.AND,yyline,yycolumn,yytext());
     }
     {OR}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.OR,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.OR,yyline,yycolumn,yytext());
     }
     {EQ}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.EQ,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.EQ,yyline,yycolumn,yytext());
     }
     {GEQ}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.GEQ,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.GEQ,yyline,yycolumn,yytext());
     }
     {GT}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.GT,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.GT,yyline,yycolumn,yytext());
     }
     {LEQ}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.LEQ,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.LEQ,yyline,yycolumn,yytext());
     }
     {LT}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.LT,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.LT,yyline,yycolumn,yytext());
     }
     {NEQ}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.NEQ,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.NEQ,yyline,yycolumn,yytext());
     }
     {WHILE}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.WHILE,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.WHILE,yyline,yycolumn,yytext());
     }
     {DO}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.DO,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.DO,yyline,yycolumn,yytext());
     }
     {DONE}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.DONE,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.DONE,yyline,yycolumn,yytext());
     }
     {FOR}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.FOR,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.FOR,yyline,yycolumn,yytext());
     }
     {FROM}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.FROM,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.FROM,yyline,yycolumn,yytext());
     }
     {BY}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.BY,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.BY,yyline,yycolumn,yytext());
     }
     {TO}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.TO,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.TO,yyline,yycolumn,yytext());
     }
     {PRINT}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.PRINT,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.PRINT,yyline,yycolumn,yytext());
     }
     {READ}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.READ,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.READ,yyline,yycolumn,yytext());
     }
     {EOS}    {
-        Symbol newSymbol = new Symbol(LexicalUnit.EOS,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+        return createAndDisplaySymbols(LexicalUnit.EOS,yyline,yycolumn,yytext());
     }
     {VARNAME}       {
-        Symbol newSymbol = new Symbol(LexicalUnit.VARNAME,yyline,yycolumn,yytext());
+        Symbol newSymbol = createAndDisplaySymbols(LexicalUnit.PLUS,yyline,yycolumn,yytext());
         addElemInListIfNotPresent(newSymbol);
-        System.out.println(newSymbol.toString());
         return newSymbol;
     }
     {START_COMMENT} {

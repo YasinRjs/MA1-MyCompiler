@@ -34,13 +34,13 @@ class Main {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\0\1\47\1\50\1\50\1\50\1\50\22\0\1\46\7\0\1\16"+
-    "\1\17\1\22\1\21\1\0\1\20\1\0\1\23\1\2\11\3\1\14"+
-    "\1\13\1\35\1\15\1\34\2\0\1\43\6\1\1\44\3\1\1\42"+
-    "\6\1\1\45\7\1\4\0\1\4\1\0\1\32\1\5\1\1\1\12"+
-    "\1\6\1\24\1\7\1\26\1\10\2\1\1\27\1\37\1\11\1\31"+
-    "\1\41\1\1\1\33\1\30\1\25\2\1\1\36\1\1\1\40\1\1"+
-    "\12\0\1\50\u1fa2\0\1\50\1\50\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
+    "\11\0\1\46\1\47\1\47\1\47\1\47\22\0\1\45\7\0\1\15"+
+    "\1\16\1\21\1\20\1\0\1\17\1\0\1\22\1\2\11\3\1\13"+
+    "\1\12\1\34\1\14\1\33\2\0\1\42\6\1\1\43\3\1\1\41"+
+    "\6\1\1\44\7\1\6\0\1\31\1\4\1\1\1\11\1\5\1\23"+
+    "\1\6\1\25\1\7\2\1\1\26\1\36\1\10\1\30\1\40\1\1"+
+    "\1\32\1\27\1\24\2\1\1\35\1\1\1\37\1\1\12\0\1\47"+
+    "\u1fa2\0\1\47\1\47\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
 
   /** 
    * Translates characters to character classes
@@ -88,17 +88,17 @@ class Main {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\51\0\122\0\173\0\122\0\244\0\315\0\366"+
-    "\0\u011f\0\u0148\0\u0171\0\122\0\u019a\0\122\0\u01c3\0\122"+
-    "\0\122\0\122\0\122\0\122\0\u01ec\0\u0215\0\u023e\0\u0267"+
-    "\0\u0290\0\u02b9\0\u02e2\0\u030b\0\u0334\0\u035d\0\u0386\0\u03af"+
-    "\0\122\0\122\0\u03d8\0\u0401\0\173\0\u042a\0\u0453\0\173"+
-    "\0\u047c\0\u04a5\0\122\0\122\0\u04ce\0\u04f7\0\u0520\0\173"+
-    "\0\173\0\u0549\0\u0572\0\122\0\122\0\122\0\u059b\0\u05c4"+
-    "\0\u05ed\0\122\0\u0616\0\u063f\0\u0668\0\173\0\u0691\0\173"+
-    "\0\u06ba\0\u06e3\0\173\0\u070c\0\u0735\0\u075e\0\u0787\0\u07b0"+
-    "\0\u07d9\0\173\0\173\0\173\0\173\0\173\0\u0802\0\u082b"+
-    "\0\u0854\0\173\0\173\0\173\0\173\0\u087d\0\173";
+    "\0\0\0\50\0\120\0\170\0\120\0\240\0\310\0\360"+
+    "\0\u0118\0\u0140\0\u0168\0\120\0\u0190\0\120\0\u01b8\0\120"+
+    "\0\120\0\120\0\120\0\120\0\u01e0\0\u0208\0\u0230\0\u0258"+
+    "\0\u0280\0\u02a8\0\u02d0\0\u02f8\0\u0320\0\u0348\0\u0370\0\u0398"+
+    "\0\120\0\120\0\u03c0\0\u03e8\0\170\0\u0410\0\u0438\0\170"+
+    "\0\u0460\0\u0488\0\120\0\120\0\u04b0\0\u04d8\0\u0500\0\170"+
+    "\0\170\0\u0528\0\u0550\0\120\0\120\0\120\0\u0578\0\u05a0"+
+    "\0\u05c8\0\120\0\u05f0\0\u0618\0\u0640\0\170\0\u0668\0\170"+
+    "\0\u0690\0\u06b8\0\170\0\u06e0\0\u0708\0\u0730\0\u0758\0\u0780"+
+    "\0\u07a8\0\170\0\170\0\170\0\170\0\170\0\u07d0\0\u07f8"+
+    "\0\u0820\0\170\0\170\0\170\0\170\0\u0848\0\170";
 
   private static int [] zzUnpackRowMap() {
     int [] result = new int[87];
@@ -124,59 +124,59 @@ class Main {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\3\1\4\1\5\1\6\1\3\1\7\1\10\1\4"+
-    "\1\11\1\12\1\13\1\14\1\15\1\16\1\17\1\20"+
-    "\1\21\1\22\1\23\1\24\1\25\1\26\3\4\1\27"+
-    "\1\30\1\31\1\32\1\33\1\34\2\4\1\35\1\36"+
-    "\3\4\1\37\1\40\1\41\22\42\1\43\25\42\1\41"+
-    "\52\0\12\4\11\0\10\4\2\0\10\4\5\0\2\6"+
-    "\46\0\5\4\1\44\4\4\11\0\10\4\2\0\2\4"+
-    "\1\45\5\4\4\0\10\4\1\46\1\4\11\0\3\4"+
-    "\1\47\4\4\2\0\10\4\4\0\12\4\11\0\1\50"+
-    "\7\4\2\0\10\4\4\0\12\4\11\0\5\4\1\51"+
-    "\2\4\2\0\10\4\4\0\12\4\11\0\5\4\1\52"+
-    "\2\4\2\0\10\4\20\0\1\53\55\0\1\54\27\0"+
-    "\12\4\11\0\5\4\1\55\1\4\1\56\2\0\10\4"+
-    "\4\0\12\4\11\0\2\4\1\57\2\4\1\60\2\4"+
-    "\2\0\10\4\4\0\12\4\11\0\7\4\1\61\2\0"+
-    "\10\4\4\0\10\4\1\62\1\4\11\0\10\4\2\0"+
-    "\10\4\4\0\5\4\1\63\4\4\11\0\10\4\2\0"+
-    "\10\4\20\0\1\64\50\0\1\65\16\0\1\66\15\0"+
-    "\12\4\11\0\2\4\1\67\5\4\2\0\10\4\4\0"+
-    "\12\4\11\0\7\4\1\70\2\0\10\4\4\0\12\4"+
-    "\11\0\10\4\2\0\5\4\1\71\2\4\51\0\1\37"+
-    "\51\0\1\40\20\0\1\72\32\0\6\4\1\73\3\4"+
-    "\11\0\10\4\2\0\10\4\4\0\11\4\1\74\11\0"+
-    "\10\4\2\0\10\4\4\0\12\4\11\0\4\4\1\75"+
-    "\3\4\2\0\10\4\4\0\12\4\11\0\1\4\1\76"+
-    "\6\4\2\0\10\4\4\0\10\4\1\77\1\4\11\0"+
-    "\10\4\2\0\10\4\4\0\12\4\11\0\7\4\1\100"+
-    "\2\0\10\4\4\0\12\4\11\0\5\4\1\101\2\4"+
-    "\2\0\10\4\4\0\5\4\1\102\4\4\11\0\10\4"+
-    "\2\0\10\4\4\0\11\4\1\103\11\0\10\4\2\0"+
-    "\10\4\4\0\12\4\11\0\6\4\1\104\1\4\2\0"+
-    "\10\4\4\0\7\4\1\105\2\4\11\0\10\4\2\0"+
-    "\10\4\4\0\7\4\1\106\2\4\11\0\10\4\2\0"+
-    "\10\4\4\0\12\4\11\0\10\4\2\0\6\4\1\107"+
-    "\1\4\4\0\7\4\1\110\2\4\11\0\10\4\2\0"+
-    "\10\4\4\0\7\4\1\111\2\4\11\0\10\4\2\0"+
-    "\10\4\4\0\5\4\1\112\4\4\11\0\10\4\2\0"+
-    "\10\4\4\0\5\4\1\113\4\4\11\0\10\4\2\0"+
-    "\10\4\4\0\12\4\11\0\10\4\2\0\1\4\1\114"+
-    "\6\4\4\0\10\4\1\115\1\4\11\0\10\4\2\0"+
-    "\10\4\4\0\11\4\1\116\11\0\10\4\2\0\10\4"+
-    "\4\0\12\4\11\0\3\4\1\117\4\4\2\0\10\4"+
-    "\4\0\10\4\1\120\1\4\11\0\10\4\2\0\10\4"+
-    "\4\0\12\4\11\0\10\4\2\0\5\4\1\121\2\4"+
-    "\4\0\10\4\1\122\1\4\11\0\10\4\2\0\10\4"+
-    "\4\0\12\4\11\0\1\123\7\4\2\0\10\4\4\0"+
-    "\5\4\1\124\4\4\11\0\10\4\2\0\10\4\4\0"+
-    "\12\4\11\0\1\4\1\125\6\4\2\0\10\4\4\0"+
-    "\12\4\11\0\10\4\2\0\7\4\1\126\4\0\12\4"+
-    "\11\0\10\4\2\0\7\4\1\127\3\0";
+    "\1\3\1\4\1\5\1\6\1\7\1\10\1\4\1\11"+
+    "\1\12\1\13\1\14\1\15\1\16\1\17\1\20\1\21"+
+    "\1\22\1\23\1\24\1\25\1\26\3\4\1\27\1\30"+
+    "\1\31\1\32\1\33\1\34\2\4\1\35\1\36\3\4"+
+    "\1\37\1\40\1\41\21\42\1\43\25\42\1\41\51\0"+
+    "\11\4\11\0\10\4\2\0\10\4\5\0\2\6\45\0"+
+    "\4\4\1\44\4\4\11\0\10\4\2\0\2\4\1\45"+
+    "\5\4\4\0\7\4\1\46\1\4\11\0\3\4\1\47"+
+    "\4\4\2\0\10\4\4\0\11\4\11\0\1\50\7\4"+
+    "\2\0\10\4\4\0\11\4\11\0\5\4\1\51\2\4"+
+    "\2\0\10\4\4\0\11\4\11\0\5\4\1\52\2\4"+
+    "\2\0\10\4\17\0\1\53\54\0\1\54\27\0\11\4"+
+    "\11\0\5\4\1\55\1\4\1\56\2\0\10\4\4\0"+
+    "\11\4\11\0\2\4\1\57\2\4\1\60\2\4\2\0"+
+    "\10\4\4\0\11\4\11\0\7\4\1\61\2\0\10\4"+
+    "\4\0\7\4\1\62\1\4\11\0\10\4\2\0\10\4"+
+    "\4\0\4\4\1\63\4\4\11\0\10\4\2\0\10\4"+
+    "\17\0\1\64\47\0\1\65\16\0\1\66\15\0\11\4"+
+    "\11\0\2\4\1\67\5\4\2\0\10\4\4\0\11\4"+
+    "\11\0\7\4\1\70\2\0\10\4\4\0\11\4\11\0"+
+    "\10\4\2\0\5\4\1\71\2\4\50\0\1\37\50\0"+
+    "\1\40\17\0\1\72\32\0\5\4\1\73\3\4\11\0"+
+    "\10\4\2\0\10\4\4\0\10\4\1\74\11\0\10\4"+
+    "\2\0\10\4\4\0\11\4\11\0\4\4\1\75\3\4"+
+    "\2\0\10\4\4\0\11\4\11\0\1\4\1\76\6\4"+
+    "\2\0\10\4\4\0\7\4\1\77\1\4\11\0\10\4"+
+    "\2\0\10\4\4\0\11\4\11\0\7\4\1\100\2\0"+
+    "\10\4\4\0\11\4\11\0\5\4\1\101\2\4\2\0"+
+    "\10\4\4\0\4\4\1\102\4\4\11\0\10\4\2\0"+
+    "\10\4\4\0\10\4\1\103\11\0\10\4\2\0\10\4"+
+    "\4\0\11\4\11\0\6\4\1\104\1\4\2\0\10\4"+
+    "\4\0\6\4\1\105\2\4\11\0\10\4\2\0\10\4"+
+    "\4\0\6\4\1\106\2\4\11\0\10\4\2\0\10\4"+
+    "\4\0\11\4\11\0\10\4\2\0\6\4\1\107\1\4"+
+    "\4\0\6\4\1\110\2\4\11\0\10\4\2\0\10\4"+
+    "\4\0\6\4\1\111\2\4\11\0\10\4\2\0\10\4"+
+    "\4\0\4\4\1\112\4\4\11\0\10\4\2\0\10\4"+
+    "\4\0\4\4\1\113\4\4\11\0\10\4\2\0\10\4"+
+    "\4\0\11\4\11\0\10\4\2\0\1\4\1\114\6\4"+
+    "\4\0\7\4\1\115\1\4\11\0\10\4\2\0\10\4"+
+    "\4\0\10\4\1\116\11\0\10\4\2\0\10\4\4\0"+
+    "\11\4\11\0\3\4\1\117\4\4\2\0\10\4\4\0"+
+    "\7\4\1\120\1\4\11\0\10\4\2\0\10\4\4\0"+
+    "\11\4\11\0\10\4\2\0\5\4\1\121\2\4\4\0"+
+    "\7\4\1\122\1\4\11\0\10\4\2\0\10\4\4\0"+
+    "\11\4\11\0\1\123\7\4\2\0\10\4\4\0\4\4"+
+    "\1\124\4\4\11\0\10\4\2\0\10\4\4\0\11\4"+
+    "\11\0\1\4\1\125\6\4\2\0\10\4\4\0\11\4"+
+    "\11\0\10\4\2\0\7\4\1\126\4\0\11\4\11\0"+
+    "\10\4\2\0\7\4\1\127\3\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[2214];
+    int [] result = new int[2160];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -304,6 +304,11 @@ class Main {
             listSymbols.add(newSymbol.getValue());
         }
     }
+    public Symbol createAndDisplaySymbols(LexicalUnit unit, int line, int column, Object value){
+        Symbol newSymbol = new Symbol(unit,line,column,value);
+        System.out.println(newSymbol.toString());
+        return newSymbol;
+    }
 
 
   /**
@@ -326,7 +331,7 @@ class Main {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 164) {
+    while (i < 160) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -701,76 +706,53 @@ class Main {
             }
           case 41: break;
           case 2: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.VARNAME,yyline,yycolumn,yytext());
+            { Symbol newSymbol = createAndDisplaySymbols(LexicalUnit.PLUS,yyline,yycolumn,yytext());
         addElemInListIfNotPresent(newSymbol);
-        System.out.println(newSymbol.toString());
         return newSymbol;
             }
           case 42: break;
           case 3: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.NUMBER,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.NUMBER,yyline,yycolumn,yytext());
             }
           case 43: break;
           case 4: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.SEMICOLON,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.SEMICOLON,yyline,yycolumn,yytext());
             }
           case 44: break;
           case 5: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.EQ,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.EQ,yyline,yycolumn,yytext());
             }
           case 45: break;
           case 6: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.LPAREN,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.LPAREN,yyline,yycolumn,yytext());
             }
           case 46: break;
           case 7: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.RPAREN,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.RPAREN,yyline,yycolumn,yytext());
             }
           case 47: break;
           case 8: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.MINUS,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.MINUS,yyline,yycolumn,yytext());
             }
           case 48: break;
           case 9: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.PLUS,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.PLUS,yyline,yycolumn,yytext());
             }
           case 49: break;
           case 10: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.TIMES,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.TIMES,yyline,yycolumn,yytext());
             }
           case 50: break;
           case 11: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.DIVIDE,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.DIVIDE,yyline,yycolumn,yytext());
             }
           case 51: break;
           case 12: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.GT,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.GT,yyline,yycolumn,yytext());
             }
           case 52: break;
           case 13: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.LT,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.LT,yyline,yycolumn,yytext());
             }
           case 53: break;
           case 14: 
@@ -782,27 +764,19 @@ class Main {
             }
           case 55: break;
           case 16: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.BY,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.BY,yyline,yycolumn,yytext());
             }
           case 56: break;
           case 17: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.IF,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.IF,yyline,yycolumn,yytext());
             }
           case 57: break;
           case 18: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.DO,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.DO,yyline,yycolumn,yytext());
             }
           case 58: break;
           case 19: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.ASSIGN,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.ASSIGN,yyline,yycolumn,yytext());
             }
           case 59: break;
           case 20: 
@@ -810,33 +784,23 @@ class Main {
             }
           case 60: break;
           case 21: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.TO,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.TO,yyline,yycolumn,yytext());
             }
           case 61: break;
           case 22: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.OR,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.OR,yyline,yycolumn,yytext());
             }
           case 62: break;
           case 23: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.GEQ,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.GEQ,yyline,yycolumn,yytext());
             }
           case 63: break;
           case 24: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.LEQ,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.LEQ,yyline,yycolumn,yytext());
             }
           case 64: break;
           case 25: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.NEQ,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.NEQ,yyline,yycolumn,yytext());
             }
           case 65: break;
           case 26: 
@@ -844,87 +808,59 @@ class Main {
             }
           case 66: break;
           case 27: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.END,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.END,yyline,yycolumn,yytext());
             }
           case 67: break;
           case 28: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.NOT,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.NOT,yyline,yycolumn,yytext());
             }
           case 68: break;
           case 29: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.FOR,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.FOR,yyline,yycolumn,yytext());
             }
           case 69: break;
           case 30: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.AND,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.AND,yyline,yycolumn,yytext());
             }
           case 70: break;
           case 31: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.ELSE,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.ELSE,yyline,yycolumn,yytext());
             }
           case 71: break;
           case 32: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.DONE,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.DONE,yyline,yycolumn,yytext());
             }
           case 72: break;
           case 33: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.FROM,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.FROM,yyline,yycolumn,yytext());
             }
           case 73: break;
           case 34: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.THEN,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.THEN,yyline,yycolumn,yytext());
             }
           case 74: break;
           case 35: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.READ,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.READ,yyline,yycolumn,yytext());
             }
           case 75: break;
           case 36: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.BEGIN,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.BEGIN,yyline,yycolumn,yytext());
             }
           case 76: break;
           case 37: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.ENDIF,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.ENDIF,yyline,yycolumn,yytext());
             }
           case 77: break;
           case 38: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.WHILE,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.WHILE,yyline,yycolumn,yytext());
             }
           case 78: break;
           case 39: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.PRINT,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.PRINT,yyline,yycolumn,yytext());
             }
           case 79: break;
           case 40: 
-            { Symbol newSymbol = new Symbol(LexicalUnit.EOS,yyline,yycolumn,yytext());
-        System.out.println(newSymbol.toString());
-        return newSymbol;
+            { return createAndDisplaySymbols(LexicalUnit.EOS,yyline,yycolumn,yytext());
             }
           case 80: break;
           default:
