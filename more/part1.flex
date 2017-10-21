@@ -12,7 +12,8 @@ import java.util.List;
 // Return value of the program
 %{
     List<Symbol> listIdentifier = new ArrayList<Symbol>();
-    List<Object> listSymbols = new ArrayList<Object>();
+    List<Object> listSymbols =
+    new ArrayList<Object>();
 
     public void addElemInListIfNotPresent(Symbol newSymbol){
         if (!listSymbols.contains(newSymbol.getValue())){
@@ -195,7 +196,7 @@ END_COMMENT = "*)"
         return createAndDisplaySymbols(LexicalUnit.EOS,yyline,yycolumn,yytext());
     }
     {VARNAME}       {
-        Symbol newSymbol = createAndDisplaySymbols(LexicalUnit.PLUS,yyline,yycolumn,yytext());
+        Symbol newSymbol = createAndDisplaySymbols(LexicalUnit.VARNAME,yyline,yycolumn,yytext());
         addElemInListIfNotPresent(newSymbol);
         return newSymbol;
     }
