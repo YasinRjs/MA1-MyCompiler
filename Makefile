@@ -1,5 +1,5 @@
 all:
-	java -jar jflex-1.6.1.jar part1.flex
+	java -jar jflex-1.6.1.jar LexicalAnalyzer.flex
 	javac Main.java
 	java Main Euclid.imp
 test:

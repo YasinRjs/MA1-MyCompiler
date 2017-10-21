@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 %%// Options of the scanner
 
-%class Main             //Name
+%class LexicalAnalyzer  //Name
 %unicode                //Use unicode
 %line                   //Use line counter (yyline variable)
 %column                 //Use character counter by line (yycolumn variable)
