@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Collections;
 %%// Options of the scanner
 
-%class Main             //Name
+%class LexicalAnalyzer             //Name
 %unicode                //Use unicode
 %line                   //Use line counter (yyline variable)
 %column                 //Use character counter by line (yycolumn variable)
