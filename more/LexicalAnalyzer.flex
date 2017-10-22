@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 %%// Options of the scanner
 
 %class Main             //Name
@@ -12,15 +13,30 @@ import java.util.List;
 // Return value of the program
 %{
     List<Symbol> listIdentifier = new ArrayList<Symbol>();
-    List<Object> listSymbols =
-    new ArrayList<Object>();
+    List<String> listSymbols = new ArrayList<String>();
 
+    /**
+    *Add an Identifier which is a Symbol in the ListIdentifier
+    *if it doesn't contain it.
+    *@param newSymbol The Identifier
+    *
+    */
     public void addElemInListIfNotPresent(Symbol newSymbol){
-        if (!listSymbols.contains(newSymbol.getValue())){
+        if (!listSymbols.contains((String) newSymbol.getValue())){
             listIdentifier.add(newSymbol);
-            listSymbols.add(newSymbol.getValue());
+            listSymbols.add((String) newSymbol.getValue());
         }
     }
+    /**
+    *Create an object Symbol and display it
+    *
+    *@param unit  A LexicalUnit which give us the type of the token
+    *@param line The line where the token is encountered
+    *@param column The column where the token is encountered
+    *@param value The actual token
+    *
+    *@return The Symbol
+    */
     public Symbol createAndDisplaySymbols(LexicalUnit unit, int line, int column, Object value){
         Symbol newSymbol = new Symbol(unit,line,column,value);
         System.out.println(newSymbol.toString());
@@ -29,10 +45,21 @@ import java.util.List;
 %}
 
 %eof{
+    Collections.sort(listSymbols); // In order to display in an alphabetical order
     System.out.println("----- Identifiers -----");
     for (int i=0; i<listIdentifier.size(); ++i){
-        Symbol elem = listIdentifier.get(i);
-        System.out.println(elem.getValue() + "\t" + elem.getLine());
+        int j = 0;
+        int index;
+        String identifier = listSymbols.get(i);
+        boolean found = false;
+        while (j < listIdentifier.size() && !found){
+            Symbol elem = listIdentifier.get(j);
+            if (identifier == elem.getValue()){
+                found = true;
+                System.out.println(elem.getValue() + "\t" + elem.getLine());
+            }
+            j++;
+        }
     }
     System.out.println("-----------------------");
 %eof}
@@ -48,7 +75,7 @@ NUM_1_9 = [1-9]
 // Extended Regular Expressions
 
 VARNAME = {ALPHA}({ALPHA} | {NUM})*
-NUMBER = {NUM_1_9}[0-9]* | 0
+NUMBER = {NUM_1_9}{NUM}* | 0
 BEGIN = "begin"
 END = "end"
 SEMICOLON = ";"
