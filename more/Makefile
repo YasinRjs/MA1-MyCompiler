@@ -7,5 +7,3 @@ jar:
 	javac Main.java
 	jar cfm ../dist/LexicalAnalyzer.jar manifest.mf Main.class
 	java -jar ../dist/LexicalAnalyzer.jar ../test/Euclid.imp
-test:
-	java part1 test.txt

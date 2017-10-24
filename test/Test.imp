@@ -1,6 +1,4 @@
-
 (* This is an useless comment *)
-
 begin
     x := 0;
     for i from 0 by 1 to 10 do
