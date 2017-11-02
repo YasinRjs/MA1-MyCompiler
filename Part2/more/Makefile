@@ -1,5 +1,6 @@
 all:
-	java -jar jflex-1.6.1.jar LexicalAnalyzer.flex
+	javac LexicalAnalyzer.java
+	javac Parser.java
 	javac Main.java
 launch:
 	java Main ../test/Euclid.imp
