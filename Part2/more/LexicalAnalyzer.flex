@@ -13,7 +13,8 @@ import java.util.Collections;
 // Return value of the program
 %{
     List<Symbol> listIdentifier = new ArrayList<Symbol>();
-    List<String> listSymbols = new ArrayList<String>();
+    List<String> listSymbolsAsString = new ArrayList<String>();
+    private static List<Symbol> symbolList = new ArrayList<Symbol>();
 
     /**
     *Add an Identifier which is a Symbol in the ListIdentifier
@@ -22,9 +23,9 @@ import java.util.Collections;
     *
     */
     public void addElemInListIfNotPresent(Symbol newSymbol){
-        if (!listSymbols.contains((String) newSymbol.getValue())){
+        if (!listSymbolsAsString.contains((String) newSymbol.getValue())){
             listIdentifier.add(newSymbol);
-            listSymbols.add((String) newSymbol.getValue());
+            listSymbolsAsString.add((String) newSymbol.getValue());
         }
     }
     /**
@@ -37,31 +38,40 @@ import java.util.Collections;
     *
     *@return The Symbol
     */
-    public Symbol createAndDisplaySymbols(LexicalUnit unit, int line, int column, Object value){
+    public Symbol createSymbol(LexicalUnit unit, int line, int column, Object value){
         Symbol newSymbol = new Symbol(unit,line,column,value);
-        System.out.println(newSymbol.toString());
+        //System.out.println(newSymbol.toString());
+        symbolList.add(newSymbol);
         return newSymbol;
+    }
+
+    public void printIdentifiers(){
+        Collections.sort(listSymbolsAsString); // In order to display in an alphabetical order
+        System.out.println("----- Identifiers -----");
+        for (int i=0; i<listIdentifier.size(); ++i){
+            int j = 0;
+            int index;
+            String identifier = listSymbolsAsString.get(i);
+            boolean found = false;
+            while (j < listIdentifier.size() && !found){
+                Symbol elem = listIdentifier.get(j);
+                if (identifier == elem.getValue()){
+                    found = true;
+                    System.out.println(elem.getValue() + "\t" + elem.getLine());
+                }
+                j++;
+            }
+        }
+        System.out.println("-----------------------");
+    }
+
+    public static List<Symbol> getSymbolList(){
+        return symbolList;
     }
 %}
 
 %eof{
-    Collections.sort(listSymbols); // In order to display in an alphabetical order
-    System.out.println("----- Identifiers -----");
-    for (int i=0; i<listIdentifier.size(); ++i){
-        int j = 0;
-        int index;
-        String identifier = listSymbols.get(i);
-        boolean found = false;
-        while (j < listIdentifier.size() && !found){
-            Symbol elem = listIdentifier.get(j);
-            if (identifier == elem.getValue()){
-                found = true;
-                System.out.println(elem.getValue() + "\t" + elem.getLine());
-            }
-            j++;
-        }
-    }
-    System.out.println("-----------------------");
+    //printIdentifiers();
 %eof}
 
 %eofval{
@@ -121,109 +131,109 @@ END_COMMENT = "*)"
 <YYINITIAL> {
     // Relational operators
     {NUMBER}        {
-        return createAndDisplaySymbols(LexicalUnit.NUMBER,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.NUMBER,yyline,yycolumn,yytext());
     }
     {BEGIN}         {
-        return createAndDisplaySymbols(LexicalUnit.BEGIN,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.BEGIN,yyline,yycolumn,yytext());
     }
     {END}           {
-        return createAndDisplaySymbols(LexicalUnit.END,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.END,yyline,yycolumn,yytext());
     }
     {SEMICOLON}     {
-        return createAndDisplaySymbols(LexicalUnit.SEMICOLON,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.SEMICOLON,yyline,yycolumn,yytext());
     }
     {IF}            {
-        return createAndDisplaySymbols(LexicalUnit.IF,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.IF,yyline,yycolumn,yytext());
     }
     {Assign}    {
-        return createAndDisplaySymbols(LexicalUnit.ASSIGN,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.ASSIGN,yyline,yycolumn,yytext());
     }
     {LPAREN}    {
-        return createAndDisplaySymbols(LexicalUnit.LPAREN,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.LPAREN,yyline,yycolumn,yytext());
     }
     {RPAREN}    {
-        return createAndDisplaySymbols(LexicalUnit.RPAREN,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.RPAREN,yyline,yycolumn,yytext());
     }
     {MINUS}    {
-        return createAndDisplaySymbols(LexicalUnit.MINUS,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.MINUS,yyline,yycolumn,yytext());
     }
     {PLUS}    {
-        return createAndDisplaySymbols(LexicalUnit.PLUS,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.PLUS,yyline,yycolumn,yytext());
     }
     {TIMES}    {
-        return createAndDisplaySymbols(LexicalUnit.TIMES,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.TIMES,yyline,yycolumn,yytext());
     }
     {DIVIDE}    {
-        return createAndDisplaySymbols(LexicalUnit.DIVIDE,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.DIVIDE,yyline,yycolumn,yytext());
     }
     {THEN}    {
-        return createAndDisplaySymbols(LexicalUnit.THEN,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.THEN,yyline,yycolumn,yytext());
     }
     {ENDIF}    {
-        return createAndDisplaySymbols(LexicalUnit.ENDIF,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.ENDIF,yyline,yycolumn,yytext());
     }
     {ELSE}    {
-        return createAndDisplaySymbols(LexicalUnit.ELSE,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.ELSE,yyline,yycolumn,yytext());
     }
     {NOT}    {
-        return createAndDisplaySymbols(LexicalUnit.NOT,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.NOT,yyline,yycolumn,yytext());
     }
     {AND}    {
-        return createAndDisplaySymbols(LexicalUnit.AND,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.AND,yyline,yycolumn,yytext());
     }
     {OR}    {
-        return createAndDisplaySymbols(LexicalUnit.OR,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.OR,yyline,yycolumn,yytext());
     }
     {EQ}    {
-        return createAndDisplaySymbols(LexicalUnit.EQ,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.EQ,yyline,yycolumn,yytext());
     }
     {GEQ}    {
-        return createAndDisplaySymbols(LexicalUnit.GEQ,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.GEQ,yyline,yycolumn,yytext());
     }
     {GT}    {
-        return createAndDisplaySymbols(LexicalUnit.GT,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.GT,yyline,yycolumn,yytext());
     }
     {LEQ}    {
-        return createAndDisplaySymbols(LexicalUnit.LEQ,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.LEQ,yyline,yycolumn,yytext());
     }
     {LT}    {
-        return createAndDisplaySymbols(LexicalUnit.LT,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.LT,yyline,yycolumn,yytext());
     }
     {NEQ}    {
-        return createAndDisplaySymbols(LexicalUnit.NEQ,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.NEQ,yyline,yycolumn,yytext());
     }
     {WHILE}    {
-        return createAndDisplaySymbols(LexicalUnit.WHILE,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.WHILE,yyline,yycolumn,yytext());
     }
     {DO}    {
-        return createAndDisplaySymbols(LexicalUnit.DO,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.DO,yyline,yycolumn,yytext());
     }
     {DONE}    {
-        return createAndDisplaySymbols(LexicalUnit.DONE,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.DONE,yyline,yycolumn,yytext());
     }
     {FOR}    {
-        return createAndDisplaySymbols(LexicalUnit.FOR,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.FOR,yyline,yycolumn,yytext());
     }
     {FROM}    {
-        return createAndDisplaySymbols(LexicalUnit.FROM,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.FROM,yyline,yycolumn,yytext());
     }
     {BY}    {
-        return createAndDisplaySymbols(LexicalUnit.BY,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.BY,yyline,yycolumn,yytext());
     }
     {TO}    {
-        return createAndDisplaySymbols(LexicalUnit.TO,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.TO,yyline,yycolumn,yytext());
     }
     {PRINT}    {
-        return createAndDisplaySymbols(LexicalUnit.PRINT,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.PRINT,yyline,yycolumn,yytext());
     }
     {READ}    {
-        return createAndDisplaySymbols(LexicalUnit.READ,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.READ,yyline,yycolumn,yytext());
     }
     {EOS}    {
-        return createAndDisplaySymbols(LexicalUnit.EOS,yyline,yycolumn,yytext());
+        return createSymbol(LexicalUnit.EOS,yyline,yycolumn,yytext());
     }
     {VARNAME}       {
-        Symbol newSymbol = createAndDisplaySymbols(LexicalUnit.VARNAME,yyline,yycolumn,yytext());
+        Symbol newSymbol = createSymbol(LexicalUnit.VARNAME,yyline,yycolumn,yytext());
         addElemInListIfNotPresent(newSymbol);
         return newSymbol;
     }

@@ -1,152 +1,83 @@
 import java.util.*;
-
+import java.io.*;
 
 class Parser {
+    private String fileName = "grammar.txt";
     private List<Symbol> tokensList;
-    private int tokenIndex;
-//    private HashMap<LexicalUnit, Runnable> HashMap;
-    private boolean isGood;
-    private int parenCounter;
+    private Stack<Symbol> stack;
+    private List<String> terminalsList = new ArrayList<String>();
+    private List<String> statesList = new ArrayList<String>();
+    private ArrayList<ArrayList<String>> grammarRules = new ArrayList<ArrayList<String>>();
 
     public Parser(List<Symbol> symbolList){
         tokensList = symbolList;
-        tokenIndex = 0;
-        isGood = true;
-        parenCounter = 0;
-//        createHashMap();
+        stack = new Stack();
+        getGrammarFromFile(fileName);
     }
 
-    public void printError(){
-        Symbol token = tokensList.get(tokenIndex);
-        isGood = false;
-        System.out.println("--- We have a syntax error with ---\nToken: ["+token.getValue() +"] at line " +token.getLine());
+    public void getGrammarFromFile(String myFile){
+        try{
+            FileReader fileReader = new FileReader(myFile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String states = bufferedReader.readLine();
+            String terminals = bufferedReader.readLine();
+            fillStatesList(states);
+            fillTerminalsList(terminals);
+            fillGrammar(bufferedReader);
+        }
+        catch(Exception e){
+            System.out.println("Problem in grammar file");
+        }
     }
 
-    public void incrementIndex(){
-        tokenIndex++;
+    public void fillStatesList(String line){
+        String[] newList = line.split(" ");
+        for (int i=0; i<newList.length; ++i){
+            statesList.add(newList[i]);
+        }
     }
 
-    public void start() {
-        Symbol token = tokensList.get(tokenIndex);
-        if (token.getType() == LexicalUnit.BEGIN){
-            incrementIndex();
-            analyzeInstruction();
-            // Si jamais on est au dernier token avec un "END"
-            if (isGood){
-                if (tokenIndex+1 == tokensList.size() && getCurrentTokenType() == LexicalUnit.END){
-                    System.out.println("On a fini.");
+    public void fillTerminalsList(String line){
+        String[] newList = line.split(" ");
+        for (int i=0; i<newList.length; ++i){
+            terminalsList.add(newList[i]);
+        }
+    }
+
+    public void fillGrammar(BufferedReader bufferedReader){
+        try{
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null){
+                String[] elemLine = line.split(" ");
+                ArrayList<String> rules = new ArrayList<String>();
+                for (int i=0; i<elemLine.length; ++i){
+                    rules.add(elemLine[i]);
                 }
-                else{
-                    System.out.println("There cannot be any instruction after an end instruction.");
+                grammarRules.add(rules);
+            }
+        }
+        catch(Exception e){
+            System.out.println("Problem in grammar");
+        }
+        printGrammarRules();
+    }
+
+    public void printGrammarRules(){
+        for(int i=0; i<grammarRules.size(); ++i){
+            for(int j=0; j<grammarRules.get(i).size(); ++j){
+                String z = " ";
+                if (grammarRules.get(i).get(j).length() == 1){
+                    z = "  ";
                 }
-
+                System.out.print(grammarRules.get(i).get(j) + z);
             }
-            // Sinon c'est une erreur
-        }
-        else{
-            printError();
-        }
-    }
-/*
-    public void createHashMap(){
-        HashMap = new HashMap<LexicalUnit,Runnable>();
-        HashMap.put(LexicalUnit.BEGIN, () -> begin());
-    }
-
-    public void analyze(Symbol token){
-        HashMap.get(token.getType()).run();
-    }
-*/
-    public void analyzeInstruction(){
-        Symbol token = tokensList.get(tokenIndex);
-        LexicalUnit tokenType = token.getType();
-        if (tokenType == LexicalUnit.END){
-            // print LL(1)
-        }
-        else if (tokenType == LexicalUnit.VARNAME){
-            incrementIndex();
-            analyzeAssign();
-        }
-        else if (tokenType == LexicalUnit.IF) {
-
-        }
-        else if (tokenType == LexicalUnit.WHILE){
-
-        }
-        else if (tokenType == LexicalUnit.FOR){
-
-        }
-        else if (tokenType == LexicalUnit.PRINT){
-
-        }
-        else if (tokenType == LexicalUnit.READ){
-
-        }
-        else {
-            printError();
-        }
-
-    }
-
-    public LexicalUnit getCurrentTokenType(){
-        return tokensList.get(tokenIndex).getType();
-    }
-
-    public void analyzeAssign(){
-        // On attend un := pour l'assignation
-        if (getCurrentTokenType() == LexicalUnit.ASSIGN) {
-            incrementIndex();
-            analyzeExprArithmAssign();
-        }
-        else {
-            printError();
+            System.out.println();
         }
     }
 
-    public void analyzeExprArithmAssign(){
-        // On attend une expr arithm
-        if (getCurrentTokenType() == LexicalUnit.VARNAME || getCurrentTokenType() == LexicalUnit.NUMBER){
-            incrementIndex();
-            if (getCurrentTokenType() == LexicalUnit.PLUS || getCurrentTokenType() == LexicalUnit.MINUS || getCurrentTokenType() == LexicalUnit.TIMES || getCurrentTokenType() == LexicalUnit.DIVIDE){
-                incrementIndex();
-                analyzeExprArithmAssign();
-            }
-            else if (getCurrentTokenType() == LexicalUnit.SEMICOLON){
-                incrementIndex();
-                analyzeInstruction();
-            }
-            else if (getCurrentTokenType() != LexicalUnit.END && parenCounter == 0)  {
-                printError();
-            }
-        }
-
-        else if (getCurrentTokenType() == LexicalUnit.LPAREN){
-            incrementIndex();
-            parenCounter++;
-            analyzeExprArithmAssign();
-            System.out.println(getCurrentTokenType());
-            if (tokenIndex+1 == tokensList.size()){
-                printError();
-            }
-            else {
-                incrementIndex();
-                if (getCurrentTokenType() != LexicalUnit.RPAREN) {
-                    printError();
-                }
-                else{
-                    parenCounter--;
-                }
-            }
-        }
-
-        else if (getCurrentTokenType() == LexicalUnit.MINUS) {
-            incrementIndex();
-            analyzeExprArithmAssign();
-        }
-        else {
-            printError();
-        }
+    public void start(){
+        Symbol firstState = new Symbol(null, "<Program>");
+        stack.push(firstState);
     }
-
 
 }

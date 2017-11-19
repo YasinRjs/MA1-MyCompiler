@@ -2,7 +2,6 @@
 
 import java.util.ArrayList;
 import java.util.List;
-/* test de commit */
 import java.util.Collections;
 
 /**
@@ -11,9 +10,6 @@ import java.util.Collections;
  * from the specification file <tt>LexicalAnalyzer.flex</tt>
  */
 class LexicalAnalyzer {
-
-  public static List<Symbol> symbolList = new ArrayList<Symbol>();
-  public static List<Symbol> getSymbolList(){return symbolList;}
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -301,7 +297,8 @@ class LexicalAnalyzer {
 
   /* user code: */
     List<Symbol> listIdentifier = new ArrayList<Symbol>();
-    List<String> listSymbols = new ArrayList<String>();
+    List<String> listSymbolsAsString = new ArrayList<String>();
+    private static List<Symbol> symbolList = new ArrayList<Symbol>();
 
     /**
     *Add an Identifier which is a Symbol in the ListIdentifier
@@ -310,9 +307,9 @@ class LexicalAnalyzer {
     *
     */
     public void addElemInListIfNotPresent(Symbol newSymbol){
-        if (!listSymbols.contains((String) newSymbol.getValue())){
+        if (!listSymbolsAsString.contains((String) newSymbol.getValue())){
             listIdentifier.add(newSymbol);
-            listSymbols.add((String) newSymbol.getValue());
+            listSymbolsAsString.add((String) newSymbol.getValue());
         }
     }
     /**
@@ -325,11 +322,35 @@ class LexicalAnalyzer {
     *
     *@return The Symbol
     */
-    public Symbol createAndDisplaySymbols(LexicalUnit unit, int line, int column, Object value){
+    public Symbol createSymbol(LexicalUnit unit, int line, int column, Object value){
         Symbol newSymbol = new Symbol(unit,line,column,value);
-        System.out.println(newSymbol.toString());
+        //System.out.println(newSymbol.toString());
         symbolList.add(newSymbol);
         return newSymbol;
+    }
+
+    public void printIdentifiers(){
+        Collections.sort(listSymbolsAsString); // In order to display in an alphabetical order
+        System.out.println("----- Identifiers -----");
+        for (int i=0; i<listIdentifier.size(); ++i){
+            int j = 0;
+            int index;
+            String identifier = listSymbolsAsString.get(i);
+            boolean found = false;
+            while (j < listIdentifier.size() && !found){
+                Symbol elem = listIdentifier.get(j);
+                if (identifier == elem.getValue()){
+                    found = true;
+                    System.out.println(elem.getValue() + "\t" + elem.getLine());
+                }
+                j++;
+            }
+        }
+        System.out.println("-----------------------");
+    }
+
+    public static List<Symbol> getSymbolList(){
+        return symbolList;
     }
 
 
@@ -563,23 +584,7 @@ class LexicalAnalyzer {
   private void zzDoEOF() {
     if (!zzEOFDone) {
       zzEOFDone = true;
-        Collections.sort(listSymbols); // In order to display in an alphabetical order
-    System.out.println("----- Identifiers -----");
-    for (int i=0; i<listIdentifier.size(); ++i){
-        int j = 0;
-        int index;
-        String identifier = listSymbols.get(i);
-        boolean found = false;
-        while (j < listIdentifier.size() && !found){
-            Symbol elem = listIdentifier.get(j);
-            if (identifier == elem.getValue()){
-                found = true;
-                System.out.println(elem.getValue() + "\t" + elem.getLine());
-            }
-            j++;
-        }
-    }
-    System.out.println("-----------------------");
+        //printIdentifiers();
 
     }
   }
@@ -739,53 +744,53 @@ class LexicalAnalyzer {
             }
           case 41: break;
           case 2:
-            { Symbol newSymbol = createAndDisplaySymbols(LexicalUnit.VARNAME,yyline,yycolumn,yytext());
+            { Symbol newSymbol = createSymbol(LexicalUnit.VARNAME,yyline,yycolumn,yytext());
         addElemInListIfNotPresent(newSymbol);
         return newSymbol;
             }
           case 42: break;
           case 3:
-            { return createAndDisplaySymbols(LexicalUnit.NUMBER,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.NUMBER,yyline,yycolumn,yytext());
             }
           case 43: break;
           case 4:
-            { return createAndDisplaySymbols(LexicalUnit.SEMICOLON,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.SEMICOLON,yyline,yycolumn,yytext());
             }
           case 44: break;
           case 5:
-            { return createAndDisplaySymbols(LexicalUnit.EQ,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.EQ,yyline,yycolumn,yytext());
             }
           case 45: break;
           case 6:
-            { return createAndDisplaySymbols(LexicalUnit.LPAREN,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.LPAREN,yyline,yycolumn,yytext());
             }
           case 46: break;
           case 7:
-            { return createAndDisplaySymbols(LexicalUnit.RPAREN,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.RPAREN,yyline,yycolumn,yytext());
             }
           case 47: break;
           case 8:
-            { return createAndDisplaySymbols(LexicalUnit.MINUS,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.MINUS,yyline,yycolumn,yytext());
             }
           case 48: break;
           case 9:
-            { return createAndDisplaySymbols(LexicalUnit.PLUS,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.PLUS,yyline,yycolumn,yytext());
             }
           case 49: break;
           case 10:
-            { return createAndDisplaySymbols(LexicalUnit.TIMES,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.TIMES,yyline,yycolumn,yytext());
             }
           case 50: break;
           case 11:
-            { return createAndDisplaySymbols(LexicalUnit.DIVIDE,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.DIVIDE,yyline,yycolumn,yytext());
             }
           case 51: break;
           case 12:
-            { return createAndDisplaySymbols(LexicalUnit.GT,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.GT,yyline,yycolumn,yytext());
             }
           case 52: break;
           case 13:
-            { return createAndDisplaySymbols(LexicalUnit.LT,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.LT,yyline,yycolumn,yytext());
             }
           case 53: break;
           case 14:
@@ -793,23 +798,23 @@ class LexicalAnalyzer {
             }
           case 54: break;
           case 15:
-            { System.out.print(yytext());
+            { //System.out.print(yytext());
             }
           case 55: break;
           case 16:
-            { return createAndDisplaySymbols(LexicalUnit.BY,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.BY,yyline,yycolumn,yytext());
             }
           case 56: break;
           case 17:
-            { return createAndDisplaySymbols(LexicalUnit.IF,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.IF,yyline,yycolumn,yytext());
             }
           case 57: break;
           case 18:
-            { return createAndDisplaySymbols(LexicalUnit.DO,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.DO,yyline,yycolumn,yytext());
             }
           case 58: break;
           case 19:
-            { return createAndDisplaySymbols(LexicalUnit.ASSIGN,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.ASSIGN,yyline,yycolumn,yytext());
             }
           case 59: break;
           case 20:
@@ -817,23 +822,23 @@ class LexicalAnalyzer {
             }
           case 60: break;
           case 21:
-            { return createAndDisplaySymbols(LexicalUnit.TO,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.TO,yyline,yycolumn,yytext());
             }
           case 61: break;
           case 22:
-            { return createAndDisplaySymbols(LexicalUnit.OR,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.OR,yyline,yycolumn,yytext());
             }
           case 62: break;
           case 23:
-            { return createAndDisplaySymbols(LexicalUnit.GEQ,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.GEQ,yyline,yycolumn,yytext());
             }
           case 63: break;
           case 24:
-            { return createAndDisplaySymbols(LexicalUnit.LEQ,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.LEQ,yyline,yycolumn,yytext());
             }
           case 64: break;
           case 25:
-            { return createAndDisplaySymbols(LexicalUnit.NEQ,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.NEQ,yyline,yycolumn,yytext());
             }
           case 65: break;
           case 26:
@@ -841,59 +846,59 @@ class LexicalAnalyzer {
             }
           case 66: break;
           case 27:
-            { return createAndDisplaySymbols(LexicalUnit.END,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.END,yyline,yycolumn,yytext());
             }
           case 67: break;
           case 28:
-            { return createAndDisplaySymbols(LexicalUnit.NOT,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.NOT,yyline,yycolumn,yytext());
             }
           case 68: break;
           case 29:
-            { return createAndDisplaySymbols(LexicalUnit.FOR,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.FOR,yyline,yycolumn,yytext());
             }
           case 69: break;
           case 30:
-            { return createAndDisplaySymbols(LexicalUnit.AND,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.AND,yyline,yycolumn,yytext());
             }
           case 70: break;
           case 31:
-            { return createAndDisplaySymbols(LexicalUnit.ELSE,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.ELSE,yyline,yycolumn,yytext());
             }
           case 71: break;
           case 32:
-            { return createAndDisplaySymbols(LexicalUnit.DONE,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.DONE,yyline,yycolumn,yytext());
             }
           case 72: break;
           case 33:
-            { return createAndDisplaySymbols(LexicalUnit.FROM,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.FROM,yyline,yycolumn,yytext());
             }
           case 73: break;
           case 34:
-            { return createAndDisplaySymbols(LexicalUnit.THEN,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.THEN,yyline,yycolumn,yytext());
             }
           case 74: break;
           case 35:
-            { return createAndDisplaySymbols(LexicalUnit.READ,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.READ,yyline,yycolumn,yytext());
             }
           case 75: break;
           case 36:
-            { return createAndDisplaySymbols(LexicalUnit.BEGIN,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.BEGIN,yyline,yycolumn,yytext());
             }
           case 76: break;
           case 37:
-            { return createAndDisplaySymbols(LexicalUnit.ENDIF,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.ENDIF,yyline,yycolumn,yytext());
             }
           case 77: break;
           case 38:
-            { return createAndDisplaySymbols(LexicalUnit.WHILE,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.WHILE,yyline,yycolumn,yytext());
             }
           case 78: break;
           case 39:
-            { return createAndDisplaySymbols(LexicalUnit.PRINT,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.PRINT,yyline,yycolumn,yytext());
             }
           case 79: break;
           case 40:
-            { return createAndDisplaySymbols(LexicalUnit.EOS,yyline,yycolumn,yytext());
+            { return createSymbol(LexicalUnit.EOS,yyline,yycolumn,yytext());
             }
           case 80: break;
           default:
@@ -935,7 +940,7 @@ class LexicalAnalyzer {
           java.io.FileInputStream stream = new java.io.FileInputStream(argv[i]);
           java.io.Reader reader = new java.io.InputStreamReader(stream, encodingName);
           scanner = new LexicalAnalyzer(reader);
-          while ( !scanner.zzAtEOF )   scanner.yylex();
+          while ( !scanner.zzAtEOF ) scanner.yylex();
         }
         catch (java.io.FileNotFoundException e) {
           System.out.println("File not found : \""+argv[i]+"\"");
