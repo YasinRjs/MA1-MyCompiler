@@ -17,7 +17,7 @@ class Parser {
     }
 
     public void program(){
-        updateCurrentToken()
+        updateCurrentToken();
         if (token == LexicalUnit.BEGIN){
             System.out.print("1 ");
             match(LexicalUnit.BEGIN); code(); match(LexicalUnit.END);
@@ -139,6 +139,56 @@ class Parser {
             syntax_error(token);
         }
     }
+
+    public void expression(){
+        updateCurrentToken();
+        boolean var = token == LexicalUnit.VARNAME;
+        boolean num = token == LexicalUnit.NUMBER;
+        boolean lparen = token == LexicalUnit.LPAREN;
+        boolean minus = token == LexicalUnit.MINUS;
+        if (var || num || lparen || minus){
+            System.out.print("14 ");
+            prodOrDiv(); expressionPrime();
+        }
+        else {
+            syntax_error(token);
+        }
+    }
+
+    public void expressionPrime(){
+        updateCurrentToken();
+        boolean plus = token == LexicalUnit.PLUS;
+        boolean minus = token == LexicalUnit.MINUS;
+
+        boolean semicolon = token == LexicalUnit.SEMICOLON;
+        boolean end = token == LexicalUnit.END;
+        boolean endif = token == LexicalUnit.ENDIF;
+        boolean elseInstr = token == LexicalUnit.ELSE;
+        boolean doneInstr = token == LexicalUnit.DONE;
+        boolean rparen = token == LexicalUnit.RPAREN;
+        boolean doInstr = token == LexicalUnit.DO;
+        boolean to = token = LexicalAnalyzer.TO;
+        boolean andInstr = token = LexicalUnit.AND;
+        boolean orInstr = token = LexicalUnit.OR;
+        boolean then = token = LexicalUnit.THEN;
+        boolean by = token = LexicalUnit.BY;
+        boolean equal = token = LexicalUnit.EQ;
+        boolean leq = token = LexicalUnit.LEQ;
+        boolean gt = token = LexicalUnit.GT;
+        boolean geq = token = LexicalUnit.GEQ;
+        boolean lt = token = LexicalUnit.LT;
+        boolean neq = token = LexicalUnit.NEQ;
+
+
+        if (plus || minus){
+            System.out.print("15 ");
+            secondOp(); expressionPrime();
+        }
+        else if (semicolon || end || endif || elseInstr || doneInstr || rparen || doInstr || to ||
+                 andInstr || orInstr)
+    }
+
+
 
     public LexicalUnit getCurrentToken(){
         LexicalUnit tokenType = tokensList.get(current).getType();

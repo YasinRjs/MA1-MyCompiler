@@ -1,7 +1,7 @@
 all:
 	#Care Ligne 801, useless out.println();
 	#Care Ligne 801, useless out.println();
-	#java -jar jflex-1.6.1.jar LexicalAnalyzer.flex
+	java -jar jflex-1.6.1.jar LexicalAnalyzer.flex
 	#Care Ligne 801, useless out.println();
 	#Care Ligne 801, useless out.println();
 	javac LexicalAnalyzer.java
