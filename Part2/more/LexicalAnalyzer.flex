@@ -120,6 +120,7 @@ PRINT = "print"
 READ = "read"
 EOS = "LAHASS"
 SPACES = " "+ | "\t"+
+NEWLINE = "\n"
 
 START_COMMENT = "(*"
 END_COMMENT = "*)"
@@ -241,6 +242,7 @@ END_COMMENT = "*)"
         yybegin(STARTCOMMENT);
     }
     {SPACES}      {}
+    {NEWLINE}  {}
     .        {
         System.out.println("token: "+yytext()+"\tlexical unit: ERROR 404");
     }

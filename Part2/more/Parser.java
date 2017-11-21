@@ -2,6 +2,38 @@ import java.util.*;
 import java.io.*;
 
 class Parser {
+    boolean begin;
+    boolean var;
+    boolean num;
+    boolean ifInstr;
+    boolean whileInstr;
+    boolean forInstr;
+    boolean printInstr;
+    boolean readInstr;
+    boolean end;
+    boolean endif;
+    boolean elseInstr;
+    boolean doneInstr;
+    boolean by;
+    boolean to;
+    boolean equal;
+    boolean leq;
+    boolean gt;
+    boolean geq;
+    boolean lt;
+    boolean neq;
+    boolean notOp;
+    boolean minusOp;
+    boolean plusOp;
+    boolean lparen;
+    boolean andInstr;
+    boolean orInstr;
+    boolean then;
+    boolean doInstr;
+    boolean timesOp;
+    boolean divOp;
+    boolean semicolon;
+    boolean rparen;
     List<Symbol> tokensList;
     LexicalUnit token;
     int current = 0;
@@ -9,9 +41,6 @@ class Parser {
     public Parser(List<Symbol> symbolList){
         tokensList = symbolList;
         updateCurrentToken();
-        for (int i=0; i<tokensList.size(); ++i){
-            System.out.println(i + ": " + tokensList.get(i));
-        }
     }
 
     public void init(){
@@ -20,10 +49,13 @@ class Parser {
         System.out.println("------- Parsing done with success ------------");
     }
 
+    public void applyRule(int number){
+        Rules.applyRule(this, number);
+    }
+
     public void program(){
-        if (token == LexicalUnit.BEGIN){
-            System.out.print("1 ");
-            match(LexicalUnit.BEGIN); code(); match(LexicalUnit.END);
+        if (begin){
+            applyRule(1);
         }
         else{
             syntax_error();
@@ -31,23 +63,11 @@ class Parser {
     }
 
     public void code(){
-        boolean var = token == LexicalUnit.VARNAME;
-        boolean ifInstr = token == LexicalUnit.IF;
-        boolean whileInstr = token == LexicalUnit.WHILE;
-        boolean forInstr = token == LexicalUnit.FOR;
-        boolean printInstr = token == LexicalUnit.PRINT;
-        boolean readInstr = token == LexicalUnit.READ;
-        boolean end = token == LexicalUnit.END;
-        boolean endif = token == LexicalUnit.ENDIF;
-        boolean elseInstr = token == LexicalUnit.ELSE;
-        boolean doneInstr = token == LexicalUnit.DONE;
-
         if (var || ifInstr || whileInstr || forInstr || printInstr || readInstr){
-            System.out.print("3 ");
-            instList();
+            applyRule(3);
         }
         else if (end || endif || elseInstr || doneInstr){
-            System.out.print("2 ");
+            applyRule(2);
         }
         else{
             syntax_error();
@@ -55,16 +75,8 @@ class Parser {
     }
 
     public void instList(){
-        boolean var = token == LexicalUnit.VARNAME;
-        boolean ifInstr = token == LexicalUnit.IF;
-        boolean whileInstr = token == LexicalUnit.WHILE;
-        boolean forInstr = token == LexicalUnit.FOR;
-        boolean printInstr = token == LexicalUnit.PRINT;
-        boolean readInstr = token == LexicalUnit.READ;
-
         if (var || ifInstr || whileInstr || forInstr || printInstr || readInstr){
-            System.out.print("4 ");
-            instruction(); afterInstruction();
+            applyRule(4);
         }
         else{
             syntax_error();
@@ -72,36 +84,23 @@ class Parser {
     }
 
     public void instruction(){
-        boolean var = token == LexicalUnit.VARNAME;
-        boolean ifInstr = token == LexicalUnit.IF;
-        boolean whileInstr = token == LexicalUnit.WHILE;
-        boolean forInstr = token == LexicalUnit.FOR;
-        boolean printInstr = token == LexicalUnit.PRINT;
-        boolean readInstr = token == LexicalUnit.READ;
-
         if (var){
-            System.out.print("5 ");
-            assign();
+            applyRule(5);
         }
         else if (ifInstr){
-            System.out.print("6 ");
-            ifState();
+            applyRule(6);
         }
         else if (whileInstr){
-            System.out.print("7 ");
-            whileState();
+            applyRule(7);
         }
         else if (forInstr){
-            System.out.print("8 ");
-            forState();
+            applyRule(8);
         }
         else if (printInstr){
-            System.out.print("9 ");
-            printState();
+            applyRule(9);
         }
         else if (readInstr){
-            System.out.print("10 ");
-            readState();
+            applyRule(10);
         }
         else{
             syntax_error();
@@ -109,18 +108,11 @@ class Parser {
     }
 
     public void afterInstruction(){
-        boolean semicolon = token == LexicalUnit.SEMICOLON;
-        boolean end = token == LexicalUnit.END;
-        boolean endif = token == LexicalUnit.ENDIF;
-        boolean elseInstr = token == LexicalUnit.ELSE;
-        boolean doneInstr = token == LexicalUnit.DONE;
-
         if (semicolon){
-            System.out.print("12 ");
-            match(LexicalUnit.SEMICOLON); instList();
+            applyRule(12);
         }
         else if (end || endif || elseInstr || doneInstr){
-            System.out.print("11 ");
+            applyRule(11);
         }
         else{
             syntax_error();
@@ -128,10 +120,8 @@ class Parser {
     }
 
     public void assign(){
-        boolean var = token == LexicalUnit.VARNAME;
         if (var){
-            System.out.print("13 ");
-            match(LexicalUnit.VARNAME); match(LexicalUnit.ASSIGN); expression();
+            applyRule(13);
         }
         else{
             syntax_error();
@@ -139,13 +129,8 @@ class Parser {
     }
 
     public void expression(){
-        boolean var = token == LexicalUnit.VARNAME;
-        boolean num = token == LexicalUnit.NUMBER;
-        boolean lparen = token == LexicalUnit.LPAREN;
-        boolean minus = token == LexicalUnit.MINUS;
-        if (var || num || lparen || minus){
-            System.out.print("14 ");
-            prodOrDiv(); expressionPrime();
+        if (var || num || lparen || minusOp){
+            applyRule(14);
         }
         else {
             syntax_error();
@@ -153,35 +138,12 @@ class Parser {
     }
 
     public void expressionPrime(){
-        boolean plusOp = token == LexicalUnit.PLUS;
-        boolean minusOp = token == LexicalUnit.MINUS;
-
-        boolean semicolon = token == LexicalUnit.SEMICOLON;
-        boolean end = token == LexicalUnit.END;
-        boolean endif = token == LexicalUnit.ENDIF;
-        boolean elseInstr = token == LexicalUnit.ELSE;
-        boolean doneInstr = token == LexicalUnit.DONE;
-        boolean rparen = token == LexicalUnit.RPAREN;
-        boolean doInstr = token == LexicalUnit.DO;
-        boolean to = token == LexicalUnit.TO;
-        boolean andInstr = token == LexicalUnit.AND;
-        boolean orInstr = token == LexicalUnit.OR;
-        boolean then = token == LexicalUnit.THEN;
-        boolean by = token == LexicalUnit.BY;
-        boolean equal = token == LexicalUnit.EQ;
-        boolean leq = token == LexicalUnit.LEQ;
-        boolean gt = token == LexicalUnit.GT;
-        boolean geq = token == LexicalUnit.GEQ;
-        boolean lt = token == LexicalUnit.LT;
-        boolean neq = token == LexicalUnit.NEQ;
-
         if (plusOp || minusOp){
-            System.out.print("15 ");
-            secondOp(); expression();
+            applyRule(15);
         }
         else if (semicolon || end || endif || elseInstr || doneInstr || rparen || doInstr || to ||
                  andInstr || orInstr || then || by || equal || leq || gt || geq || lt || neq){
-            System.out.print("16 ");
+            applyRule(16);
         }
         else{
             syntax_error();
@@ -189,14 +151,8 @@ class Parser {
     }
 
     public void prodOrDiv(){
-        boolean var = token == LexicalUnit.VARNAME;
-        boolean num = token == LexicalUnit.NUMBER;
-        boolean lparen = token == LexicalUnit.LPAREN;
-        boolean minusOp = token == LexicalUnit.MINUS;
-
         if (var || num || lparen || minusOp){
-            System.out.print("17 ");
-            atom(); prodOrDivPrime();
+            applyRule(17);
         }
         else{
             syntax_error();
@@ -204,37 +160,12 @@ class Parser {
     }
 
     public void prodOrDivPrime(){
-        boolean timesOp = token == LexicalUnit.TIMES;
-        boolean divOp = token == LexicalUnit.DIVIDE;
-
-        boolean semicolon = token == LexicalUnit.SEMICOLON;
-        boolean end = token == LexicalUnit.END;
-        boolean endif = token == LexicalUnit.ENDIF;
-        boolean elseInstr = token == LexicalUnit.ELSE;
-        boolean doneInstr = token == LexicalUnit.DONE;
-        boolean rparen = token == LexicalUnit.RPAREN;
-        boolean doInstr = token == LexicalUnit.DO;
-        boolean to = token == LexicalUnit.TO;
-        boolean andInstr = token == LexicalUnit.AND;
-        boolean orInstr = token == LexicalUnit.OR;
-        boolean then = token == LexicalUnit.THEN;
-        boolean by = token == LexicalUnit.BY;
-        boolean equal = token == LexicalUnit.EQ;
-        boolean leq = token == LexicalUnit.LEQ;
-        boolean gt = token == LexicalUnit.GT;
-        boolean geq = token == LexicalUnit.GEQ;
-        boolean lt = token == LexicalUnit.LT;
-        boolean neq = token == LexicalUnit.NEQ;
-        boolean plusOp = token == LexicalUnit.PLUS;
-        boolean minusOp = token == LexicalUnit.MINUS;
-
         if (timesOp || divOp){
-            System.out.print("18 ");
-            firstOp(); prodOrDiv();
+            applyRule(18);
         }
         else if (semicolon || end || endif || elseInstr || doneInstr || rparen || doInstr || to ||
                  andInstr || orInstr || then || by || equal || leq || gt || geq || lt || neq || plusOp || minusOp){
-            System.out.print("19 ");
+            applyRule(19);
         }
         else{
             syntax_error();
@@ -242,26 +173,17 @@ class Parser {
     }
 
     public void atom(){
-        boolean minusOp = token == LexicalUnit.MINUS;
-        boolean var = token == LexicalUnit.VARNAME;
-        boolean num = token == LexicalUnit.NUMBER;
-        boolean lparen = token == LexicalUnit.LPAREN;
-
         if (minusOp){
-            System.out.print("20 ");
-            match(LexicalUnit.MINUS); atom();
+            applyRule(20);
         }
         else if (var){
-            System.out.print("21 ");
-            match(LexicalUnit.VARNAME);
+            applyRule(21);
         }
-        else if (num){
-            System.out.print("22 ");
-            match(LexicalUnit.NUMBER);
+            else if (num){
+            applyRule(22);
         }
         else if (lparen){
-            System.out.print("23 ");
-            match(LexicalUnit.LPAREN); expression(); match(LexicalUnit.RPAREN);
+            applyRule(23);
         }
         else {
             syntax_error();
@@ -269,16 +191,11 @@ class Parser {
     }
 
     public void firstOp(){
-        boolean timesOp = token == LexicalUnit.TIMES;
-        boolean divOp = token == LexicalUnit.DIVIDE;
-
         if (timesOp){
-            System.out.print("24 ");
-            match(LexicalUnit.TIMES);
+            applyRule(24);
         }
         else if (divOp){
-            System.out.print("25 ");
-            match(LexicalUnit.DIVIDE);
+            applyRule(25);
         }
         else{
             syntax_error();
@@ -286,16 +203,11 @@ class Parser {
     }
 
     public void secondOp(){
-        boolean plusOp = token == LexicalUnit.PLUS;
-        boolean minusOp = token == LexicalUnit.MINUS;
-
         if (plusOp){
-            System.out.print("26 ");
-            match(LexicalUnit.PLUS);
+            applyRule(26);
         }
         else if (minusOp){
-            System.out.print("27 ");
-            match(LexicalUnit.MINUS);
+            applyRule(27);
         }
         else {
             syntax_error();
@@ -303,11 +215,8 @@ class Parser {
     }
 
     public void ifState(){
-        boolean ifInstr = token == LexicalUnit.IF;
-
         if (ifInstr){
-            System.out.print("28 ");
-            match(LexicalUnit.IF); cond(); match(LexicalUnit.THEN); code(); afterIf();
+            applyRule(28);
         }
         else{
             syntax_error();
@@ -315,16 +224,11 @@ class Parser {
     }
 
     public void afterIf(){
-        boolean endif = token == LexicalUnit.ENDIF;
-        boolean elseInstr = token == LexicalUnit.ELSE;
-
         if (endif){
-            System.out.print("29 ");
-            match(LexicalUnit.ENDIF);
+            applyRule(29);
         }
         else if (elseInstr){
-            System.out.print("30 ");
-            match(LexicalUnit.ELSE); code(); match(LexicalUnit.ENDIF);
+            applyRule(30);
         }
         else{
             syntax_error();
@@ -332,15 +236,8 @@ class Parser {
     }
 
     public void cond(){
-        boolean minusOp = token == LexicalUnit.MINUS;
-        boolean var = token == LexicalUnit.VARNAME;
-        boolean num = token == LexicalUnit.NUMBER;
-        boolean lparen = token == LexicalUnit.LPAREN;
-        boolean notOp = token == LexicalUnit.NOT;
-
         if (var || num || minusOp || lparen || notOp){
-            System.out.print("31 ");
-            andCond(); condPrime();
+            applyRule(31);
         }
         else {
             syntax_error();
@@ -348,16 +245,11 @@ class Parser {
     }
 
     public void condPrime(){
-        boolean orInstr = token == LexicalUnit.OR;
-        boolean then = token == LexicalUnit.THEN;
-        boolean doInstr = token == LexicalUnit.DO;
-
         if (orInstr){
-            System.out.print("32 ");
-            match(LexicalUnit.OR); cond();
+            applyRule(32);
         }
         else if (then || doInstr){
-            System.out.print("33 ");
+            applyRule(33);
         }
         else {
             syntax_error();
@@ -365,15 +257,8 @@ class Parser {
     }
 
     public void andCond(){
-        boolean minusOp = token == LexicalUnit.MINUS;
-        boolean var = token == LexicalUnit.VARNAME;
-        boolean num = token == LexicalUnit.NUMBER;
-        boolean lparen = token == LexicalUnit.LPAREN;
-        boolean notOp = token == LexicalUnit.NOT;
-
         if (var || num || minusOp || lparen || notOp){
-            System.out.print("34 ");
-            simpleCond(); andCondPrime();
+            applyRule(34);
         }
         else {
             syntax_error();
@@ -381,17 +266,11 @@ class Parser {
     }
 
     public void andCondPrime(){
-        boolean andInstr = token ==LexicalUnit.AND;
-        boolean orInstr = token == LexicalUnit.OR;
-        boolean then = token == LexicalUnit.THEN;
-        boolean doInstr = token == LexicalUnit.DO;
-
         if (andInstr){
-            System.out.print("35 ");
-            match(LexicalUnit.AND); andCond();
+            applyRule(35);
         }
         else if (orInstr || then || doInstr){
-            System.out.print("36 ");
+            applyRule(36);
         }
         else{
             syntax_error();
@@ -399,15 +278,8 @@ class Parser {
     }
 
     public void simpleCond(){
-        boolean minusOp = token == LexicalUnit.MINUS;
-        boolean var = token == LexicalUnit.VARNAME;
-        boolean num = token == LexicalUnit.NUMBER;
-        boolean lparen = token == LexicalUnit.LPAREN;
-        boolean notOp = token == LexicalUnit.NOT;
-
         if (var || num || minusOp || lparen || notOp){
-            System.out.print("37 ");
-            notCond(); expression(); comp(); expression();
+            applyRule(37);
         }
         else {
             syntax_error();
@@ -415,18 +287,11 @@ class Parser {
     }
 
     public void notCond(){
-        boolean notOp = token == LexicalUnit.NOT;
-        boolean minusOp = token == LexicalUnit.MINUS;
-        boolean var = token == LexicalUnit.VARNAME;
-        boolean num = token == LexicalUnit.NUMBER;
-        boolean lparen = token == LexicalUnit.LPAREN;
-
         if (notOp){
-            System.out.print("38 ");
-            match(LexicalUnit.NOT);
+            applyRule(38);
         }
         else if (num || var || minusOp || lparen){
-            System.out.print("39 ");
+            applyRule(39);
         }
         else{
             syntax_error();
@@ -434,36 +299,23 @@ class Parser {
     }
 
     public void comp(){
-        boolean equal = token == LexicalUnit.EQ;
-        boolean leq = token == LexicalUnit.LEQ;
-        boolean gt = token == LexicalUnit.GT;
-        boolean geq = token == LexicalUnit.GEQ;
-        boolean lt = token == LexicalUnit.LT;
-        boolean neq = token == LexicalUnit.NEQ;
-
         if (equal){
-            System.out.print("40 ");
-            match(LexicalUnit.EQ);
+            applyRule(40);
         }
         else if (leq){
-            System.out.print("41 ");
-            match(LexicalUnit.LEQ);
+            applyRule(41);
         }
         else if (gt){
-            System.out.print("42 ");
-            match(LexicalUnit.GT);
+            applyRule(42);
         }
         else if (geq){
-            System.out.print("43 ");
-            match(LexicalUnit.GEQ);
+            applyRule(43);
         }
         else if (lt){
-            System.out.print("44 ");
-            match(LexicalUnit.LT);
+            applyRule(44);
         }
         else if (neq){
-            System.out.print("45 ");
-            match(LexicalUnit.NEQ);
+            applyRule(45);
         }
         else{
             syntax_error();
@@ -471,11 +323,8 @@ class Parser {
     }
 
     public void whileState(){
-        boolean whileInstr = token == LexicalUnit.WHILE;
-
         if (whileInstr){
-            System.out.print("46 ");
-            match(LexicalUnit.WHILE); cond(); match(LexicalUnit.DO); code(); match(LexicalUnit.DONE);
+            applyRule(46);
         }
         else{
             syntax_error();
@@ -483,10 +332,8 @@ class Parser {
     }
 
     public void forState(){
-        boolean forInstr = token == LexicalUnit.FOR;
         if (forInstr){
-            System.out.print("47 ");
-            match(LexicalUnit.FOR); match(LexicalUnit.VARNAME); match(LexicalUnit.FROM); expression(); afterFor();
+            applyRule(47);
         }
         else{
             syntax_error();
@@ -494,12 +341,8 @@ class Parser {
     }
 
     public void afterFor(){
-        boolean by = token == LexicalUnit.BY;
-        boolean to = token == LexicalUnit.TO;
-
         if (by || to){
-            System.out.print("48 ");
-            byExpr(); match(LexicalUnit.TO); expression(); match(LexicalUnit.DO); code(); match(LexicalUnit.DONE);
+            applyRule(48);
         }
         else{
             syntax_error();
@@ -507,15 +350,11 @@ class Parser {
     }
 
     public void byExpr(){
-        boolean by = token == LexicalUnit.BY;
-        boolean to = token == LexicalUnit.TO;
-
         if (by){
-            System.out.print("49 ");
-            match(LexicalUnit.BY); expression();
+            applyRule(49);
         }
         else if (to){
-            System.out.print("50 ");
+            applyRule(50);
         }
         else{
             syntax_error();
@@ -523,11 +362,8 @@ class Parser {
     }
 
     public void printState(){
-        boolean printInstr = token == LexicalUnit.PRINT;
-
         if (printInstr){
-            System.out.print("51 ");
-            match(LexicalUnit.PRINT); match(LexicalUnit.LPAREN); match(LexicalUnit.VARNAME); match(LexicalUnit.RPAREN);
+            applyRule(51);
         }
         else {
             syntax_error();
@@ -535,11 +371,8 @@ class Parser {
     }
 
     public void readState(){
-        boolean readInstr = token == LexicalUnit.READ;
-
         if (readInstr){
-            System.out.print("52 ");
-            match(LexicalUnit.READ); match(LexicalUnit.LPAREN); match(LexicalUnit.VARNAME); match(LexicalUnit.RPAREN);
+            applyRule(52);
         }
         else {
             syntax_error();
@@ -561,11 +394,43 @@ class Parser {
         else{
             syntax_error();
         }
-
     }
 
     public void updateCurrentToken(){
         token = getCurrentToken();
+
+        begin = token == LexicalUnit.BEGIN;
+        var = token == LexicalUnit.VARNAME;
+        num = token == LexicalUnit.NUMBER;
+        ifInstr = token == LexicalUnit.IF;
+        whileInstr = token == LexicalUnit.WHILE;
+        forInstr = token == LexicalUnit.FOR;
+        printInstr = token == LexicalUnit.PRINT;
+        readInstr = token == LexicalUnit.READ;
+        end = token == LexicalUnit.END;
+        endif = token == LexicalUnit.ENDIF;
+        elseInstr = token == LexicalUnit.ELSE;
+        doneInstr = token == LexicalUnit.DONE;
+        by = token == LexicalUnit.BY;
+        to = token == LexicalUnit.TO;
+        equal = token == LexicalUnit.EQ;
+        leq = token == LexicalUnit.LEQ;
+        gt = token == LexicalUnit.GT;
+        geq = token == LexicalUnit.GEQ;
+        lt = token == LexicalUnit.LT;
+        neq = token == LexicalUnit.NEQ;
+        notOp = token == LexicalUnit.NOT;
+        minusOp = token == LexicalUnit.MINUS;
+        plusOp = token == LexicalUnit.PLUS;
+        lparen = token == LexicalUnit.LPAREN;
+        andInstr = token ==LexicalUnit.AND;
+        orInstr = token == LexicalUnit.OR;
+        then = token == LexicalUnit.THEN;
+        doInstr = token == LexicalUnit.DO;
+        timesOp = token == LexicalUnit.TIMES;
+        divOp = token == LexicalUnit.DIVIDE;
+        semicolon = token == LexicalUnit.SEMICOLON;
+        rparen = token == LexicalUnit.RPAREN;
     }
 
     public void syntax_error(){
