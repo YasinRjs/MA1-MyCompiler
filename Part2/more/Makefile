@@ -3,10 +3,8 @@ all:
 	#START MAKE
 	#-----------------
 	#
-	#java -jar jflex-1.6.1.jar LexicalAnalyzer.flex
-	javac LexicalAnalyzer.java
-	javac Parser.java
-	javac Main.java
+	java -jar src/jflex-1.6.1.jar src/LexicalAnalyzer.flex
+	javac src/*.java -d .
 	#
 	#-----------------
 	#END MAKE
@@ -17,7 +15,6 @@ launch:
 	#-----------------
 	java Main ../test/Euclid.imp
 jar:
-	#java -jar jflex-1.6.1.jar LexicalAnalyzer.flex
-	javac Main.java
-	jar cfm ../dist/LexicalAnalyzer.jar manifest.mf Main.class
-	java -jar ../dist/LexicalAnalyzer.jar ../test/Euclid.imp
+	javac src/Main.java
+	jar cfm ../dist/part2.jar manifest.mf Main.class
+	java -jar ../dist/part2.jar ../test/Euclid.imp
