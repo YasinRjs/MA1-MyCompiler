@@ -14,6 +14,10 @@ launch:
 	#LAUNCHING APP
 	#-----------------
 	java Main ../test/Euclid.imp
+
+clean:
+	rm *.class
+
 jar:
 	javac src/Main.java
 	jar cfm ../dist/part2.jar manifest.mf Main.class
