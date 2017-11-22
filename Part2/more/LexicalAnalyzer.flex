@@ -244,7 +244,13 @@ END_COMMENT = "*)"
     {SPACES}      {}
     {NEWLINE}  {}
     .        {
-        System.out.println("token: "+yytext()+"\tlexical unit: ERROR 404");
+        try {   // It's abnormal but doing this avoid to modify the java file
+            throw new AnalyzingException(yytext(), yyline);
+        }
+        catch (AnalyzingException e){
+            System.exit(1);
+        }
+        //System.out.println("token: "+yytext()+"\tlexical unit: ERROR 404");
     }
 }
 

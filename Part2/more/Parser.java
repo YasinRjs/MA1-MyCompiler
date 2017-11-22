@@ -1,7 +1,12 @@
 import java.util.*;
 import java.io.*;
 
+/**
+Represent a parser for the language IMP
+*/
 class Parser {
+    /* Those boolean allows us to avoid writing
+    the same if, else if... conditions repetedively */
     boolean begin;
     boolean var;
     boolean num;
@@ -34,26 +39,49 @@ class Parser {
     boolean divOp;
     boolean semicolon;
     boolean rparen;
+
     List<Symbol> tokensList;
-    LexicalUnit token;
+    LexicalUnit tokenType;
+    Symbol token;
     int current = 0;
 
+    /**
+     * Constructor
+     * @param  List<Symbol> symbolList    List of the scanned token
+     */
     public Parser(List<Symbol> symbolList){
         tokensList = symbolList;
         updateCurrentToken();
     }
 
+    /**
+     * Start the parsing
+     */
     public void init(){
-        program();
-        System.out.println();
-        System.out.println("------- Parsing done with success ------------");
+        try {
+            program();
+            System.out.println();
+            System.out.println("------- Parsing done with success ------------");
+        }
+        catch (ParsingException e){
+            System.exit(1);
+        }
     }
 
-    public void applyRule(int number){
+    /**
+     * Apply the rule X
+     * @param int number number of the rule used
+     * @throws ParsingException A syntax error has been met
+     */
+    public void applyRule(int number) throws ParsingException{
         Rules.applyRule(this, number);
     }
 
-    public void program(){
+    /**
+     * Program variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void program() throws ParsingException{
         if (begin){
             applyRule(1);
         }
@@ -62,7 +90,11 @@ class Parser {
         }
     }
 
-    public void code(){
+    /**
+     * Code variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void code() throws ParsingException{
         if (var || ifInstr || whileInstr || forInstr || printInstr || readInstr){
             applyRule(3);
         }
@@ -74,7 +106,11 @@ class Parser {
         }
     }
 
-    public void instList(){
+    /**
+     * InstList variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void instList() throws ParsingException{
         if (var || ifInstr || whileInstr || forInstr || printInstr || readInstr){
             applyRule(4);
         }
@@ -83,7 +119,11 @@ class Parser {
         }
     }
 
-    public void instruction(){
+    /**
+     * Instruction variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void instruction() throws ParsingException{
         if (var){
             applyRule(5);
         }
@@ -107,7 +147,11 @@ class Parser {
         }
     }
 
-    public void afterInstruction(){
+    /**
+     * AfterInstruction variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void afterInstruction() throws ParsingException{
         if (semicolon){
             applyRule(12);
         }
@@ -119,7 +163,11 @@ class Parser {
         }
     }
 
-    public void assign(){
+    /**
+     * Assign variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void assign() throws ParsingException{
         if (var){
             applyRule(13);
         }
@@ -128,7 +176,11 @@ class Parser {
         }
     }
 
-    public void expression(){
+    /**
+     * Expr variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void expression() throws ParsingException{
         if (var || num || lparen || minusOp){
             applyRule(14);
         }
@@ -137,7 +189,11 @@ class Parser {
         }
     }
 
-    public void expressionPrime(){
+    /**
+     * Expr' variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void expressionPrime() throws ParsingException{
         if (plusOp || minusOp){
             applyRule(15);
         }
@@ -150,7 +206,11 @@ class Parser {
         }
     }
 
-    public void prodOrDiv(){
+    /**
+     * ProdOrDiv variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void prodOrDiv() throws ParsingException{
         if (var || num || lparen || minusOp){
             applyRule(17);
         }
@@ -159,7 +219,11 @@ class Parser {
         }
     }
 
-    public void prodOrDivPrime(){
+    /**
+     * ProdOrDiv' variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void prodOrDivPrime() throws ParsingException{
         if (timesOp || divOp){
             applyRule(18);
         }
@@ -172,7 +236,11 @@ class Parser {
         }
     }
 
-    public void atom(){
+    /**
+     * Atom variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void atom() throws ParsingException{
         if (minusOp){
             applyRule(20);
         }
@@ -190,7 +258,11 @@ class Parser {
         }
     }
 
-    public void firstOp(){
+    /**
+     * FirstOp variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void firstOp() throws ParsingException{
         if (timesOp){
             applyRule(24);
         }
@@ -202,7 +274,11 @@ class Parser {
         }
     }
 
-    public void secondOp(){
+    /**
+     * SecondOp variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void secondOp() throws ParsingException{
         if (plusOp){
             applyRule(26);
         }
@@ -214,7 +290,11 @@ class Parser {
         }
     }
 
-    public void ifState(){
+    /**
+     * If variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void ifState() throws ParsingException{
         if (ifInstr){
             applyRule(28);
         }
@@ -223,7 +303,11 @@ class Parser {
         }
     }
 
-    public void afterIf(){
+    /**
+     * AfterIf variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void afterIf() throws ParsingException{
         if (endif){
             applyRule(29);
         }
@@ -235,7 +319,11 @@ class Parser {
         }
     }
 
-    public void cond(){
+    /**
+     * Cond variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void cond() throws ParsingException{
         if (var || num || minusOp || lparen || notOp){
             applyRule(31);
         }
@@ -244,7 +332,11 @@ class Parser {
         }
     }
 
-    public void condPrime(){
+    /**
+     * Cond' variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void condPrime() throws ParsingException{
         if (orInstr){
             applyRule(32);
         }
@@ -256,7 +348,11 @@ class Parser {
         }
     }
 
-    public void andCond(){
+    /**
+     * AndCond variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void andCond() throws ParsingException{
         if (var || num || minusOp || lparen || notOp){
             applyRule(34);
         }
@@ -265,7 +361,11 @@ class Parser {
         }
     }
 
-    public void andCondPrime(){
+    /**
+     * AndCond' variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void andCondPrime() throws ParsingException{
         if (andInstr){
             applyRule(35);
         }
@@ -277,7 +377,11 @@ class Parser {
         }
     }
 
-    public void simpleCond(){
+    /**
+     * SimpleCond variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void simpleCond() throws ParsingException{
         if (var || num || minusOp || lparen || notOp){
             applyRule(37);
         }
@@ -286,7 +390,11 @@ class Parser {
         }
     }
 
-    public void notCond(){
+    /**
+     * NotCond variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void notCond() throws ParsingException{
         if (notOp){
             applyRule(38);
         }
@@ -298,7 +406,11 @@ class Parser {
         }
     }
 
-    public void comp(){
+    /**
+     * Comp variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void comp() throws ParsingException{
         if (equal){
             applyRule(40);
         }
@@ -322,7 +434,11 @@ class Parser {
         }
     }
 
-    public void whileState(){
+    /**
+     * While variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void whileState() throws ParsingException{
         if (whileInstr){
             applyRule(46);
         }
@@ -331,7 +447,11 @@ class Parser {
         }
     }
 
-    public void forState(){
+    /**
+     * For variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void forState() throws ParsingException{
         if (forInstr){
             applyRule(47);
         }
@@ -340,7 +460,11 @@ class Parser {
         }
     }
 
-    public void afterFor(){
+    /**
+     * AfterFor variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void afterFor() throws ParsingException{
         if (by || to){
             applyRule(48);
         }
@@ -349,7 +473,11 @@ class Parser {
         }
     }
 
-    public void byExpr(){
+    /**
+     * ByExpr variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void byExpr() throws ParsingException{
         if (by){
             applyRule(49);
         }
@@ -361,7 +489,11 @@ class Parser {
         }
     }
 
-    public void printState(){
+    /**
+     * Print variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void printState() throws ParsingException{
         if (printInstr){
             applyRule(51);
         }
@@ -370,7 +502,11 @@ class Parser {
         }
     }
 
-    public void readState(){
+    /**
+     * Read variable
+     * @throws ParsingException A syntax error has been met
+     */
+    public void readState() throws ParsingException{
         if (readInstr){
             applyRule(52);
         }
@@ -379,12 +515,21 @@ class Parser {
         }
     }
 
-    public LexicalUnit getCurrentToken(){
-        LexicalUnit tokenType = tokensList.get(current).getType();
-        return tokenType;
+    /**
+     * Get the current token
+     * @return token
+     */
+    public Symbol getCurrentToken(){
+        Symbol token = tokensList.get(current);
+        return token;
     }
 
-    public void match(LexicalUnit tokenType){
+    /**
+     * Check wether the token type matches what the parser expected
+     * @param  LexicalUnit      tokenType     The expected token type
+     * @throws ParsingException A syntax error has been met
+     */
+    public void match(LexicalUnit tokenType) throws ParsingException{
         if (tokensList.get(current).getType() == tokenType){
             current++;
             if (current != tokensList.size()){
@@ -396,47 +541,53 @@ class Parser {
         }
     }
 
+    /**
+     * Update all the boolean attributes to avoid rewriting
+     * the same if conditions over and over again
+     */
     public void updateCurrentToken(){
         token = getCurrentToken();
+        tokenType = token.getType();
 
-        begin = token == LexicalUnit.BEGIN;
-        var = token == LexicalUnit.VARNAME;
-        num = token == LexicalUnit.NUMBER;
-        ifInstr = token == LexicalUnit.IF;
-        whileInstr = token == LexicalUnit.WHILE;
-        forInstr = token == LexicalUnit.FOR;
-        printInstr = token == LexicalUnit.PRINT;
-        readInstr = token == LexicalUnit.READ;
-        end = token == LexicalUnit.END;
-        endif = token == LexicalUnit.ENDIF;
-        elseInstr = token == LexicalUnit.ELSE;
-        doneInstr = token == LexicalUnit.DONE;
-        by = token == LexicalUnit.BY;
-        to = token == LexicalUnit.TO;
-        equal = token == LexicalUnit.EQ;
-        leq = token == LexicalUnit.LEQ;
-        gt = token == LexicalUnit.GT;
-        geq = token == LexicalUnit.GEQ;
-        lt = token == LexicalUnit.LT;
-        neq = token == LexicalUnit.NEQ;
-        notOp = token == LexicalUnit.NOT;
-        minusOp = token == LexicalUnit.MINUS;
-        plusOp = token == LexicalUnit.PLUS;
-        lparen = token == LexicalUnit.LPAREN;
-        andInstr = token ==LexicalUnit.AND;
-        orInstr = token == LexicalUnit.OR;
-        then = token == LexicalUnit.THEN;
-        doInstr = token == LexicalUnit.DO;
-        timesOp = token == LexicalUnit.TIMES;
-        divOp = token == LexicalUnit.DIVIDE;
-        semicolon = token == LexicalUnit.SEMICOLON;
-        rparen = token == LexicalUnit.RPAREN;
+        begin = tokenType == LexicalUnit.BEGIN;
+        var = tokenType == LexicalUnit.VARNAME;
+        num = tokenType == LexicalUnit.NUMBER;
+        ifInstr = tokenType == LexicalUnit.IF;
+        whileInstr = tokenType == LexicalUnit.WHILE;
+        forInstr = tokenType == LexicalUnit.FOR;
+        printInstr = tokenType == LexicalUnit.PRINT;
+        readInstr = tokenType == LexicalUnit.READ;
+        end = tokenType == LexicalUnit.END;
+        endif = tokenType == LexicalUnit.ENDIF;
+        elseInstr = tokenType == LexicalUnit.ELSE;
+        doneInstr = tokenType == LexicalUnit.DONE;
+        by = tokenType == LexicalUnit.BY;
+        to = tokenType == LexicalUnit.TO;
+        equal = tokenType == LexicalUnit.EQ;
+        leq = tokenType == LexicalUnit.LEQ;
+        gt = tokenType == LexicalUnit.GT;
+        geq = tokenType == LexicalUnit.GEQ;
+        lt = tokenType == LexicalUnit.LT;
+        neq = tokenType == LexicalUnit.NEQ;
+        notOp = tokenType == LexicalUnit.NOT;
+        minusOp = tokenType == LexicalUnit.MINUS;
+        plusOp = tokenType == LexicalUnit.PLUS;
+        lparen = tokenType == LexicalUnit.LPAREN;
+        andInstr = tokenType ==LexicalUnit.AND;
+        orInstr = tokenType == LexicalUnit.OR;
+        then = tokenType == LexicalUnit.THEN;
+        doInstr = tokenType == LexicalUnit.DO;
+        timesOp = tokenType == LexicalUnit.TIMES;
+        divOp = tokenType == LexicalUnit.DIVIDE;
+        semicolon = tokenType == LexicalUnit.SEMICOLON;
+        rparen = tokenType == LexicalUnit.RPAREN;
     }
 
-    public void syntax_error(){
-        System.out.println("--------");
-        System.out.println("Didn't expect "+ token + ".");
-        System.out.println(current);
-        System.exit(0);
+    /**
+     * Throw the ParsingException
+     * @throws ParsingException A syntax error has been met
+     */
+    public void syntax_error() throws ParsingException{
+        throw new ParsingException(token);
     }
 }

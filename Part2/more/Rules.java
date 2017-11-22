@@ -1,5 +1,14 @@
+/**
+ * Class which will apply the rule accordingly
+ */
 class Rules {
-    public static void applyRule(Parser parser, int ruleNumber){
+    /**
+     * Apply the rule number X of the IMP grammar
+     * @param Parser parser     The parser that's doing the parsing
+     * @param int    ruleNumber the number of the rule to apply
+     * @throws ParsingException A syntax error has been met
+     */
+    public static void applyRule(Parser parser, int ruleNumber) throws ParsingException{
         System.out.print(ruleNumber+ " ");
         switch(ruleNumber){
             case 1:
