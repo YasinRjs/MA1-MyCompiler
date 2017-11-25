@@ -30,7 +30,7 @@ test:
 
 aa:
 	#-----------------
-	# LAUNCH Test.imp
+	#  LAUNCH aa.imp
 	#-----------------
 	java Main ../test/aa.imp
 	#
