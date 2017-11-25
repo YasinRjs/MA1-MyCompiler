@@ -40,16 +40,15 @@ class Parser {
     boolean semicolon;
     boolean rparen;
 
-    List<Symbol> tokensList;
+    GenericStack<Symbol> tokensList;
     LexicalUnit tokenType;
     Symbol token;
-    int current = 0;
 
     /**
      * Constructor
      * @param  List<Symbol> symbolList    List of the scanned token
      */
-    public Parser(List<Symbol> symbolList){
+    public Parser(GenericStack<Symbol> symbolList){
         tokensList = symbolList;
         updateCurrentToken();
     }
@@ -520,8 +519,8 @@ class Parser {
      * @return token
      */
     public Symbol getCurrentToken(){
-        Symbol token = tokensList.get(current);
-        return token;
+        Symbol newToken = tokensList.pop();
+        return newToken;
     }
 
     /**
@@ -529,10 +528,9 @@ class Parser {
      * @param  LexicalUnit      tokenType     The expected token type
      * @throws ParsingException A syntax error has been met
      */
-    public void match(LexicalUnit tokenType) throws ParsingException{
-        if (tokensList.get(current).getType() == tokenType){
-            current++;
-            if (current != tokensList.size()){
+    public void match(LexicalUnit expectedTokenType) throws ParsingException{
+        if (tokenType == expectedTokenType){
+            if (!tokensList.empty()){
                 updateCurrentToken();
             }
         }

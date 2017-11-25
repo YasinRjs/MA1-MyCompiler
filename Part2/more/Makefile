@@ -1,19 +1,42 @@
 all:
 	#-----------------
-	#START MAKE
 	#-----------------
+	#
 	#
 	java -jar src/jflex-1.6.1.jar src/LexicalAnalyzer.flex
 	javac src/*.java -d .
 	#
+	#
 	#-----------------
-	#END MAKE
 	#-----------------
-launch:
+euclid:
 	#-----------------
-	#LAUNCHING APP
+	#LAUNCH EUCLID.imp
 	#-----------------
 	java Main ../test/Euclid.imp
+	#
+	#-----------------
+	#
+	#-----------------
+test:
+	#-----------------
+	# LAUNCH Test.imp
+	#-----------------
+	java Main ../test/Test.imp
+	#
+	#-----------------
+	#
+	#-----------------
+
+aa:
+	#-----------------
+	# LAUNCH Test.imp
+	#-----------------
+	java Main ../test/aa.imp
+	#
+	#-----------------
+	#
+	#-----------------
 
 clean:
 	rm *.class

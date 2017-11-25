@@ -15,6 +15,7 @@ import java.util.Collections;
     List<Symbol> listIdentifier = new ArrayList<Symbol>();
     List<String> listSymbolsAsString = new ArrayList<String>();
     private static List<Symbol> symbolList = new ArrayList<Symbol>();
+    private static GenericStack<Symbol> stack = new GenericStack<Symbol>();
 
     /**
     *Add an Identifier which is a Symbol in the ListIdentifier
@@ -65,8 +66,11 @@ import java.util.Collections;
         System.out.println("-----------------------");
     }
 
-    public static List<Symbol> getSymbolList(){
-        return symbolList;
+    public static GenericStack<Symbol> getSymbolList(){
+        for(int i=symbolList.size()-1; i>=0; --i){
+            stack.push(symbolList.get(i));
+        }
+        return stack;
     }
 %}
 
