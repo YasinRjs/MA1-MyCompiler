@@ -22,11 +22,11 @@ class NotationConverter{
                     operatorsStack.push(element);
                 }
             }
-            else if (element == "(" || element == "~"){
+            else if (element.equals("(") || element.equals("~")){
                 operatorsStack.push(element);
             }
 
-            else if (element == ")"){
+            else if (element.equals(")")){
                 while (operatorsStack.getTopOfStack() != "("){
                     postfixNotation.add(operatorsStack.pop());
                 }
@@ -41,12 +41,6 @@ class NotationConverter{
             postfixNotation.add(operatorsStack.pop());
         }
 
-        System.out.println("----------------");
-        for (int i = 0; i < postfixNotation.size(); ++i){
-            System.out.print(postfixNotation.get(i)+ " ");
-        }
-        System.out.println("-----------------");
-
         return postfixNotation;
     }
 
@@ -57,7 +51,7 @@ class NotationConverter{
      * @return        true if correct
      */
     public static boolean isOperator(String op){
-        return op == "+" || op == "-" || op == "*" || op == "/";
+        return op.equals("+") || op.equals("-") || op.equals("*") || op.equals("/");
     }
 
     /**
@@ -69,11 +63,11 @@ class NotationConverter{
      */
     public static boolean hasHigherPriority(String op, String tos){
         boolean flag;
-        if (tos =="("){
+        if (tos.equals("(")){
             flag = true;
         }
         else {
-            flag = (op == "*" || op == "/") && (tos == "+" || tos == "-");
+            flag = (op.equals("*") || op.equals("/")) && (tos.equals("+") || tos.equals("-"));
         }
         return flag;
     }

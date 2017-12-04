@@ -58,7 +58,7 @@ class Rules {
                 parser.match(LexicalUnit.VARNAME);
                 parser.match(LexicalUnit.ASSIGN);
                 parser.expression();
-                generator.generateExpression(var);
+                generator.generateAssign("%"+var);
                 break;
             case 14:
                 parser.prodOrDiv(); parser.expressionPrime();
@@ -82,14 +82,14 @@ class Rules {
                 parser.atom();
                 break;
             case 21:
-                var = parser.getCurrentTokenValue();
+                var = generator.generateVariable("%"+parser.getCurrentTokenValue());
                 parser.match(LexicalUnit.VARNAME);
+
                 generator.addElementInExpression(var);
                 break;
             case 22:
                 var = parser.getCurrentTokenValue();
                 parser.match(LexicalUnit.NUMBER);
-                System.out.println(var);
                 generator.addElementInExpression(var);
                 break;
             case 23:
@@ -116,10 +116,17 @@ class Rules {
                 generator.addElementInExpression("-");
                 break;
             case 28:
-                parser.match(LexicalUnit.IF); parser.cond(); parser.match(LexicalUnit.THEN); parser.code(); parser.afterIf();
+                parser.match(LexicalUnit.IF);
+                parser.cond();
+                parser.match(LexicalUnit.THEN);
+                generator.generateIf();
+                parser.code();
+
+                parser.afterIf();
                 break;
             case 29:
                 parser.match(LexicalUnit.ENDIF);
+                generator.generateEndIf();
                 break;
             case 30:
                 parser.match(LexicalUnit.ELSE); parser.code(); parser.match(LexicalUnit.ENDIF);
@@ -128,7 +135,9 @@ class Rules {
                 parser.andCond(); parser.condPrime();
                 break;
             case 32:
-                parser.match(LexicalUnit.OR); parser.cond();
+                parser.match(LexicalUnit.OR);
+                generator.addCondition("or");
+                parser.cond();
                 break;
             case 33:
                 break;
@@ -136,15 +145,27 @@ class Rules {
                 parser.simpleCond(); parser.andCondPrime();
                 break;
             case 35:
-                parser.match(LexicalUnit.AND); parser.andCond();
+                parser.match(LexicalUnit.AND);
+                generator.addCondition("and");
+                parser.andCond();
                 break;
             case 36:
                 break;
             case 37:
-                parser.notCond(); parser.expression(); parser.comp(); parser.expression();
+                parser.notCond();
+                parser.expression();
+                var = generator.generateExpression();
+                generator.addCondition(var);
+                var = parser.getCurrentTokenValue();
+                parser.comp();
+                generator.addCondition(var);
+                parser.expression();
+                var= generator.generateExpression();
+                generator.addCondition(var);
                 break;
             case 38:
                 parser.match(LexicalUnit.NOT);
+                generator.addCondition("not");
                 break;
             case 39:
                 break;
@@ -185,11 +206,16 @@ class Rules {
                 parser.match(LexicalUnit.LPAREN);
                 var = parser.getCurrentTokenValue();
                 parser.match(LexicalUnit.VARNAME);
-                generator.generatePrint(var);
+                generator.generatePrint("%"+var);
                 parser.match(LexicalUnit.RPAREN);
                 break;
             case 52:
-                parser.match(LexicalUnit.READ); parser.match(LexicalUnit.LPAREN); parser.match(LexicalUnit.VARNAME); parser.match(LexicalUnit.RPAREN);
+                parser.match(LexicalUnit.READ);
+                parser.match(LexicalUnit.LPAREN);
+                var = parser.getCurrentTokenValue();
+                parser.match(LexicalUnit.VARNAME);
+                generator.generateRead("%"+var);
+                parser.match(LexicalUnit.RPAREN);
                 break;
         }
     }
