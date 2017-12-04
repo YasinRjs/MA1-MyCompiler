@@ -2,14 +2,15 @@
  * Class which will apply the rule accordingly
  */
 class Rules {
+
+    private static CodeGenerator generator = new CodeGenerator();
+
     /**
      * Apply the rule number X of the IMP grammar
      * @param Parser parser     The parser that's doing the parsing
      * @param int    ruleNumber the number of the rule to apply
      * @throws ParsingException A syntax error has been met
      */
-
-    private static CodeGenerator generator = new CodeGenerator();
     public static void applyRule(Parser parser, int ruleNumber) throws ParsingException{
         System.out.print(ruleNumber+ " ");
         String var;
@@ -77,7 +78,7 @@ class Rules {
                 break;
             case 20:
                 parser.match(LexicalUnit.MINUS);
-                generator.addElementInExpression("-");
+                generator.addElementInExpression("~");
                 parser.atom();
                 break;
             case 21:
@@ -180,7 +181,12 @@ class Rules {
             case 50:
                 break;
             case 51:
-                parser.match(LexicalUnit.PRINT); parser.match(LexicalUnit.LPAREN); parser.match(LexicalUnit.VARNAME); parser.match(LexicalUnit.RPAREN);
+                parser.match(LexicalUnit.PRINT);
+                parser.match(LexicalUnit.LPAREN);
+                var = parser.getCurrentTokenValue();
+                parser.match(LexicalUnit.VARNAME);
+                generator.generatePrint(var);
+                parser.match(LexicalUnit.RPAREN);
                 break;
             case 52:
                 parser.match(LexicalUnit.READ); parser.match(LexicalUnit.LPAREN); parser.match(LexicalUnit.VARNAME); parser.match(LexicalUnit.RPAREN);

@@ -68,79 +68,67 @@ class CodeGenerator {
 //    public void generateVariable(String var){
 //        writer.println("%"+var+" = alloca i32");
 //    }
-
+    /**
+     * Will generate the code about the assign expression
+     * @param String var the variable assigned
+     */
     public void generateExpression(String var){
-        convertInfixToPostfix();
-        System.out.println();
-        System.out.print(var+" = ");
-        for (int i = 0; i < infixNotation.size(); ++i){
-            System.out.print(infixNotation.get(i));
+        postfixNotation = NotationConverter.convertInfixToPostfix(infixNotation);
+        if (postfixNotation.size() == 1){
+            postfixNotation.add("0");
+            postfixNotation.add("+");
         }
-        System.out.println();
+        GenericStack<String> operandsStack = new GenericStack<String>();
+        boolean isOperator = false;
+        for (int i = 0; i < postfixNotation.size(); ++i){
+            String element = postfixNotation.get(i);
+            String operator = "";
+            if (element == "+"){
+                operator = "add";
+                isOperator = true;
+            }
+            else if (element == "-"){
+                operator = "sub";
+                isOperator = true;
+            }
+            else if (element == "*" || element == "~"){
+                operator = "mul";
+                isOperator = true;
+            }
+            else if (element == "/"){
+                operator = "sdiv";
+                isOperator = true;
+            }
+            else{ // It's an operand, we push it into the stack
+                operandsStack.push(element);
+            }
+            if (isOperator){
+                String operand2 = operandsStack.pop();
+                String operand1;
+                if (element == "~"){
+                    operand1 = "-1";
+                }
+                else{
+                    operand1 = operandsStack.pop();
+                }
+                String tempVar = "%"+instructionCounter++;
+                writer.println(tempVar + " = "+operator+" i32 "+operand1+","+operand2);
+                operandsStack.push(tempVar);
+                isOperator = false;
+            }
+        }
+        writer.println("%"+var+" = add i32 0,"+operandsStack.pop());
+
+
         infixNotation.clear();
         postfixNotation.clear();
     }
 
-
-    public void convertInfixToPostfix(){
-        GenericStack<String> operatorsStack = new GenericStack<String>();
-        for (int i = 0; i < infixNotation.size(); ++i){
-            String element = infixNotation.get(i);
-            if (isOperator(element)){
-                if (operatorsStack.empty() || hasHigherPriority(element,operatorsStack.getTopOfStack())){
-                    operatorsStack.push(element);
-                }
-                else{
-                    postfixNotation.add(operatorsStack.pop());
-                    operatorsStack.push(element);
-                }
-            }
-            else if (element == "("){
-                operatorsStack.push(element);
-            }
-
-            else if (element == ")"){
-                postfixNotation.add(operatorsStack.pop());
-                operatorsStack.pop();
-            }
-
-            else{
-                postfixNotation.add(element);
-            }
-        }
-
-        while(!operatorsStack.empty()){
-            postfixNotation.add(operatorsStack.pop());
-        }
-
-        System.out.println("----------------");
-        for (int i = 0; i < postfixNotation.size(); ++i){
-            System.out.print(postfixNotation.get(i)+ " ");
-        }
-        System.out.println("-----------------");
-
-    }
-
-    public boolean isOperator(String op){
-        return op == "+" || op == "-" || op == "*" || op == "/";
-    }
-
     /**
-     * Check if the operator has a higher priority
-     * than the top of stack
-     * @param  String op           Top Of stack
-     * @param  String tos            Operator
-     * @return        true if yes, false otherwise
+     * Generate the code for the print
+     * @param String var The variable to print
      */
-    public boolean hasHigherPriority(String op, String tos){
-        boolean flag;
-        if (tos =="("){
-            flag = true;
-        }
-        else {
-            flag = (op == "*" || op == "/") && (tos == "+" || tos == "-");
-        }
-        return flag;
+    public void generatePrint(String var){
+        writer.println("call void @println(i32 %"+var+")");
     }
-
 }
