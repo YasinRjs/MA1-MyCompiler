@@ -1,0 +1,13 @@
+begin
+
+a := 0;
+i :=0;
+while i < 2 do
+    while a < 10 do
+        a := a +1;
+        print(a)
+    done;
+    i := i+1;
+    a := 0
+done
+end

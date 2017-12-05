@@ -18,39 +18,40 @@ ret i32 %2
 declare i32 @__isoc99_scanf(i8*, ...)
 define i32 @main() {
 entry:
+%0 = add i32 0,0
 %a = alloca i32
-%0 = call i32 @readInt()
 store i32 %0, i32* %a
 %1 = add i32 0,0
 %i = alloca i32
 store i32 %1, i32* %i
 br label %label0
 label0:
-%2 = load i32, i32* %a
+%2 = load i32, i32* %i
 %3 = add i32 %2,0
-%4 = add i32 10,0
+%4 = add i32 2,0
 %5 = icmp slt i32 %3,%4
 br i1 %5, label %label1, label %afterIf0
 label1:
-%6 = load i32, i32* %i
-%7 = add i32 %6,0
-%8 = add i32 0,0
-%9 = icmp eq i32 %7,%8
-br i1 %9, label %label2, label %afterIf1
+br label %label2
 label2:
-%10 = add i32 1,0
-store i32 %10, i32* %i
-br label %afterIf2
+%6 = load i32, i32* %a
+%7 = add i32 %6,0
+%8 = add i32 10,0
+%9 = icmp slt i32 %7,%8
+br i1 %9, label %label3, label %afterIf1
+label3:
+%10 = load i32, i32* %a
+%11 = add i32 %10,1
+store i32 %11, i32* %a
+%12= load i32, i32*%a
+call void @println(i32 %12)
+br label %label2
 afterIf1:
-%11= load i32, i32*%a
-call void @println(i32 %11)
-%12 = add i32 0,0
-store i32 %12, i32* %i
-br label %afterIf2
-afterIf2:
-%13 = load i32, i32* %a
+%13 = load i32, i32* %i
 %14 = add i32 %13,1
-store i32 %14, i32* %a
+store i32 %14, i32* %i
+%15 = add i32 0,0
+store i32 %15, i32* %a
 br label %label0
 afterIf0:
 ret i32 0
