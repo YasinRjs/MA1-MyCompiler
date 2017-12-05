@@ -1,0 +1,23 @@
+begin
+read(x);
+y := 2;
+u := 20000;
+if x = 2 and not u < 2 or x < 2 then
+    if x <> 2 then
+        if 1 = 55 or x < 1000 then
+            if x > -342 then
+                x := 5;
+                print(x)
+            else
+                x:= 4;
+                print(x)
+            endif
+        endif
+    endif;
+    read(a);
+    print(a)
+else
+    f := 1000000000;
+    print(f)
+endif
+end

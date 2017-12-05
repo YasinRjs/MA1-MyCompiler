@@ -13,6 +13,8 @@ class CodeGenerator {
     private boolean codeFound;
     private boolean notSymbol;
     private PrintWriter writer;
+    private GenericStack<String> context;
+
     private List<String> variables;
     private List<String> infixNotation;
     private List<String> postfixNotation;
@@ -25,6 +27,7 @@ class CodeGenerator {
         afterIfCounter = 0;
         codeFound = false;
         notSymbol = false;
+        context = new GenericStack<String>();
         variables = new ArrayList<String>();
         infixNotation = new ArrayList<String>();
         postfixNotation = new ArrayList<String>();
@@ -180,7 +183,9 @@ class CodeGenerator {
     }
 
     /**
-     * Generate the code for the first condition
+     * Generate the code for the condition
+     * Can also be used for the while since in term of low level
+     * a while is a simple if with a jump back to the condition
      * @param String exp1 [description]
      * @param String comp [description]
      * @param String exp2 [description]
@@ -190,6 +195,11 @@ class CodeGenerator {
         while (i < conditions.size()){
             String element = conditions.get(i);
             if (element.equals("or")){
+
+                if (conditions.get(i+1).equals("not")){
+                    notSymbol = true;
+                    ++i;
+                }
                 if (!codeFound){
                     codeFound = true;
                     codeLabel = labelCounter++;
@@ -206,6 +216,10 @@ class CodeGenerator {
                 }
             }
             else if (element.equals("and")){
+                if (conditions.get(i+1).equals("not")){
+                    notSymbol = true;
+                    ++i;
+                }
                 String exp1 = conditions.get(++i);
                 String comp = convertComp(conditions.get(++i));
                 String exp2 = conditions.get(++i);
@@ -214,8 +228,6 @@ class CodeGenerator {
                     generateCondition(comp,exp1,exp2,codeLabel);
                 }
                 else{
-                    System.out.println("----------");
-                    System.out.println(labelCounter);
                     generateCondition(comp,exp1,exp2,labelCounter);
                 }
             }
@@ -238,6 +250,8 @@ class CodeGenerator {
             codeFound = false;
         }
 
+        context.push("afterIf"+afterIfCounter++);
+        conditions.clear();
     }
 
     /**
@@ -257,9 +271,20 @@ class CodeGenerator {
      * Generate the code after the end of an If
      */
     public void generateEndIf(){
-        writer.println("br label %afterIf"+afterIfCounter);
-        writer.println("afterIf"+afterIfCounter+":");
-        afterIfCounter++;
+        String afterLabel = context.pop();
+        writer.println("br label %"+afterLabel);
+        writer.println(afterLabel+":");
+    }
+
+
+
+
+    public void generateElse(){
+        String afterLabel = context.pop();
+        String afterElse = "afterIf"+afterIfCounter++;
+        writer.println("br label %"+afterElse);
+        context.push(afterElse);
+        writer.println(afterLabel+":");
     }
 
     /**
@@ -317,11 +342,30 @@ class CodeGenerator {
                 res = "sge";
             }
         }
+        notSymbol = false;
 
         return res;
     }
 
 
+
+
+
+    public void generateWhile(){
+        String whileLabel = "label"+labelCounter++;
+        context.push(whileLabel);
+        writer.println("br label %"+whileLabel);
+        writer.println(whileLabel+":");
+    }
+
+
+    public void generateDoneWhile(){
+        String afterWhile = context.pop();
+        String whileLabel = context.pop();
+        writer.println("br label %"+whileLabel);
+        writer.println(afterWhile+":");
+
+    }
 
     /**
      * Generate the code for the print instruction

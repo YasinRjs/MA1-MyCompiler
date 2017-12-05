@@ -19,4 +19,8 @@ public class GenericStack<Template> {
     public boolean empty(){
         return topOfStack==0;
     }
+
+    public int size(){
+        return stack.size();
+    }
 }

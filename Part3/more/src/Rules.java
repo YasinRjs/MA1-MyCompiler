@@ -129,7 +129,11 @@ class Rules {
                 generator.generateEndIf();
                 break;
             case 30:
-                parser.match(LexicalUnit.ELSE); parser.code(); parser.match(LexicalUnit.ENDIF);
+                parser.match(LexicalUnit.ELSE);
+                generator.generateElse();
+                parser.code();
+                parser.match(LexicalUnit.ENDIF);
+                generator.generateEndIf();
                 break;
             case 31:
                 parser.andCond(); parser.condPrime();
@@ -188,7 +192,14 @@ class Rules {
                 parser.match(LexicalUnit.NEQ);
                 break;
             case 46:
-                parser.match(LexicalUnit.WHILE); parser.cond(); parser.match(LexicalUnit.DO); parser.code(); parser.match(LexicalUnit.DONE);
+                parser.match(LexicalUnit.WHILE);
+                generator.generateWhile();
+                parser.cond();
+                generator.generateIf();
+                parser.match(LexicalUnit.DO);
+                parser.code();
+                parser.match(LexicalUnit.DONE);
+                generator.generateDoneWhile();
                 break;
             case 47:
                 parser.match(LexicalUnit.FOR); parser.match(LexicalUnit.VARNAME); parser.match(LexicalUnit.FROM); parser.expression(); parser.afterFor();

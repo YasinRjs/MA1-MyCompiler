@@ -1,11 +1,14 @@
 begin
-x :=1;
-y := 2;
-u := 2;
-if not x= 2 then
-    x := 5;
-    print(x);
-    read(a);
-    print(a)
-endif
+
+read(a);
+i :=0;
+while a < 10 do
+    if i = 0 then
+        i := 1
+    else
+        print(a);
+        i := 0
+    endif;
+    a := a +1
+done
 end
