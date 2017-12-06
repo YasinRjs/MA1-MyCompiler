@@ -253,7 +253,7 @@ class Parser {
         }
             else if (num){
             applyRule(22);
-            
+
         }
         else if (lparen){
             applyRule(23);

@@ -1,14 +1,25 @@
 begin
 
-read(a);
-i :=0;
-while a < 10 do
-    if i = 0 then
-        i := 1
+for x from 0 to 3 do
+    (*read(x);*)
+    y := 2;
+    u := 20000;
+    print(x);
+    if x = 2 and not u < 2 or x < 2 then
+        if x <> 2 then
+            if 1 = 55 or x < 1000 then
+                if x > -342 then
+                    g := 5;
+                    print(g)
+                else
+                    g:= 4;
+                    print(g)
+                endif
+            endif
+        endif
     else
-        print(a);
-        i := 0
-    endif;
-    a := a +1
+        f := 1000000000;
+        print(f)
+    endif
 done
 end

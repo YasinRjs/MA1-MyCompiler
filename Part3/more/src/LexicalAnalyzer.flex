@@ -13,7 +13,7 @@ import java.util.Collections;
 // Return value of the program
 %{
     List<Symbol> listIdentifier = new ArrayList<Symbol>();
-    List<String> listSymbolsAsString = new ArrayList<String>();
+    private static List<String> listSymbolsAsString = new ArrayList<String>();
     private static List<Symbol> symbolList = new ArrayList<Symbol>();
     private static GenericStack<Symbol> stack = new GenericStack<Symbol>();
 
@@ -46,6 +46,9 @@ import java.util.Collections;
         return newSymbol;
     }
 
+    /**
+     * Display the identifier in an alphabetical order
+     */
     public void printIdentifiers(){
         Collections.sort(listSymbolsAsString); // In order to display in an alphabetical order
         System.out.println("----- Identifiers -----");
@@ -64,6 +67,11 @@ import java.util.Collections;
             }
         }
         System.out.println("-----------------------");
+    }
+
+
+    public static List<String> getVariablesList(){
+        return listSymbolsAsString;
     }
 
     public static GenericStack<Symbol> getSymbolList(){

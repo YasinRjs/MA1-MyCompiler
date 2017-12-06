@@ -18,40 +18,95 @@ ret i32 %2
 declare i32 @__isoc99_scanf(i8*, ...)
 define i32 @main() {
 entry:
+%x = alloca i32
+%y = alloca i32
+%u = alloca i32
+%g = alloca i32
+%f = alloca i32
 %0 = add i32 0,0
-%a = alloca i32
-store i32 %0, i32* %a
-%1 = add i32 0,0
-%i = alloca i32
-store i32 %1, i32* %i
+store i32 %0, i32* %x
+%1 = add i32 1,0
+%2 = add i32 3,0
 br label %label0
 label0:
-%2 = load i32, i32* %i
-%3 = add i32 %2,0
-%4 = add i32 2,0
-%5 = icmp slt i32 %3,%4
-br i1 %5, label %label1, label %afterIf0
+%3 = load i32, i32* %x
+%4 = icmp sle i32 %3,%2
+br i1 %4, label %label1, label %afterIf0
 label1:
-br label %label2
+%5 = add i32 2,0
+store i32 %5, i32* %y
+%6 = add i32 20000,0
+store i32 %6, i32* %u
+%7= load i32, i32*%x
+call void @println(i32 %7)
+%8 = load i32, i32* %x
+%9 = add i32 %8,0
+%10 = add i32 2,0
+%11 = load i32, i32* %u
+%12 = add i32 %11,0
+%13 = add i32 2,0
+%14 = load i32, i32* %x
+%15 = add i32 %14,0
+%16 = add i32 2,0
+%17 = icmp eq i32 %9,%10
+br i1 %17, label %label2, label %afterIf1
 label2:
-%6 = load i32, i32* %a
-%7 = add i32 %6,0
-%8 = add i32 10,0
-%9 = icmp slt i32 %7,%8
-br i1 %9, label %label3, label %afterIf1
-label3:
-%10 = load i32, i32* %a
-%11 = add i32 %10,1
-store i32 %11, i32* %a
-%12= load i32, i32*%a
-call void @println(i32 %12)
-br label %label2
+%18 = icmp sge i32 %12,%13
+br i1 %18, label %label3, label %afterIf1
 afterIf1:
-%13 = load i32, i32* %i
-%14 = add i32 %13,1
-store i32 %14, i32* %i
-%15 = add i32 0,0
-store i32 %15, i32* %a
+%19 = icmp slt i32 %15,%16
+br i1 %19, label %label3, label %afterIf2
+label3:
+%20 = load i32, i32* %x
+%21 = add i32 %20,0
+%22 = add i32 2,0
+%23 = icmp ne i32 %21,%22
+br i1 %23, label %label4, label %afterIf3
+label4:
+%24 = add i32 1,0
+%25 = add i32 55,0
+%26 = load i32, i32* %x
+%27 = add i32 %26,0
+%28 = add i32 1000,0
+%29 = icmp eq i32 %24,%25
+br i1 %29, label %label5, label %afterIf4
+afterIf4:
+%30 = icmp slt i32 %27,%28
+br i1 %30, label %label5, label %afterIf5
+label5:
+%31 = load i32, i32* %x
+%32 = add i32 %31,0
+%33 = mul i32 -1,342
+%34 = icmp sgt i32 %32,%33
+br i1 %34, label %label6, label %afterIf6
+label6:
+%35 = add i32 5,0
+store i32 %35, i32* %g
+%36= load i32, i32*%g
+call void @println(i32 %36)
+br label %afterIf7
+afterIf6:
+%37 = add i32 4,0
+store i32 %37, i32* %g
+%38= load i32, i32*%g
+call void @println(i32 %38)
+br label %afterIf7
+afterIf7:
+br label %afterIf5
+afterIf5:
+br label %afterIf3
+afterIf3:
+br label %afterIf8
+afterIf2:
+%39 = add i32 1000000000,0
+store i32 %39, i32* %f
+%40= load i32, i32*%f
+call void @println(i32 %40)
+br label %afterIf8
+afterIf8:
+%41 = load i32, i32* %x
+%42 = add i32 %41,%1
+store i32 %42, i32* %x
 br label %label0
 afterIf0:
 ret i32 0

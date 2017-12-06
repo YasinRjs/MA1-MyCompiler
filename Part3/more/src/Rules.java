@@ -1,10 +1,21 @@
+import java.util.List;
+
+
 /**
  * Class which will apply the rule accordingly
  */
 class Rules {
 
-    private static CodeGenerator generator = new CodeGenerator();
+    private static CodeGenerator generator;
 
+
+    /**
+     * Generate the code to allocate memory for the variables
+     * @param List<String> variables Variables
+     */
+    public static void prepareVariables(List<String> variables){
+        generator = new CodeGenerator(variables);
+    }
     /**
      * Apply the rule number X of the IMP grammar
      * @param Parser parser     The parser that's doing the parsing
@@ -16,8 +27,8 @@ class Rules {
         String var;
         switch(ruleNumber){
             case 1:
-                parser.match(LexicalUnit.BEGIN);
                 generator.generateBegin();
+                parser.match(LexicalUnit.BEGIN);
                 parser.code();
                 parser.match(LexicalUnit.END);
                 generator.generateEnding();
@@ -202,15 +213,33 @@ class Rules {
                 generator.generateDoneWhile();
                 break;
             case 47:
-                parser.match(LexicalUnit.FOR); parser.match(LexicalUnit.VARNAME); parser.match(LexicalUnit.FROM); parser.expression(); parser.afterFor();
+                parser.match(LexicalUnit.FOR);
+                var = parser.getCurrentTokenValue();
+                parser.match(LexicalUnit.VARNAME);
+                parser.match(LexicalUnit.FROM);
+                parser.expression();
+                generator.generateAssign("%"+var);
+                generator.addForVariables("%"+var);
+                parser.afterFor();
                 break;
             case 48:
-                parser.byExpr(); parser.match(LexicalUnit.TO); parser.expression(); parser.match(LexicalUnit.DO); parser.code(); parser.match(LexicalUnit.DONE);
+                parser.byExpr();
+                String byVar = generator.generateExpression();
+                parser.match(LexicalUnit.TO);
+                parser.expression();
+                String toVar = generator.generateExpression();
+                parser.match(LexicalUnit.DO);
+                generator.generateFor(byVar,toVar);
+                parser.code();
+                parser.match(LexicalUnit.DONE);
+                generator.generateDoneFor();
                 break;
             case 49:
-                parser.match(LexicalUnit.BY); parser.expression();
+                parser.match(LexicalUnit.BY);
+                parser.expression();
                 break;
             case 50:
+                generator.addElementInExpression("1");
                 break;
             case 51:
                 parser.match(LexicalUnit.PRINT);

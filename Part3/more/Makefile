@@ -3,7 +3,7 @@ all:
 	#-----------------
 	#
 	#
-	#java -jar src/jflex-1.6.1.jar src/LexicalAnalyzer.flex
+	java -jar src/jflex-1.6.1.jar src/LexicalAnalyzer.flex
 	javac src/*.java -d .
 	#
 	#

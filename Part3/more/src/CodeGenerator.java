@@ -14,13 +14,13 @@ class CodeGenerator {
     private boolean notSymbol;
     private PrintWriter writer;
     private GenericStack<String> context;
-
+    private GenericStack<String> forVariables;
     private List<String> variables;
     private List<String> infixNotation;
     private List<String> postfixNotation;
     private List<String> conditions;
     private List<String> conditionsPostfix;
-    public CodeGenerator(){
+    public CodeGenerator(List<String> v){
         instructionCounter = 0;
         codeLabel = 0;
         labelCounter = 0;
@@ -28,13 +28,15 @@ class CodeGenerator {
         codeFound = false;
         notSymbol = false;
         context = new GenericStack<String>();
-        variables = new ArrayList<String>();
+        forVariables = new GenericStack<String>();
+        variables = v;
         infixNotation = new ArrayList<String>();
         postfixNotation = new ArrayList<String>();
         conditions = new ArrayList<String>();
         try {
             writer = new PrintWriter("file.lli", "UTF-8");
             init();
+
         }
         catch (FileNotFoundException|UnsupportedEncodingException e){
             e.printStackTrace();
@@ -83,6 +85,9 @@ class CodeGenerator {
     public void generateBegin(){
         writer.println("define i32 @main() {");
         writer.println("entry:");
+        for (int i = 0; i < variables.size(); ++i){
+            addVariables("%"+variables.get(i));
+        }
 
     }
 
@@ -99,11 +104,8 @@ class CodeGenerator {
      * If the variable doesn't exist, add it in the list
      * @param String var Variable
      */
-    private void addVariables(String var){
-        if (!variables.contains(var)){
-            writer.println(var+ " = alloca i32");
-            variables.add(var);
-        }
+    public void addVariables(String var){
+        writer.println(var+ " = alloca i32");
     }
     /**
      * Will generate the code for the Assign instruction
@@ -111,10 +113,14 @@ class CodeGenerator {
      */
     public void generateAssign(String var){
         String temporaryVar = generateExpression();
-        addVariables(var);
         writer.println("store i32 "+temporaryVar+", i32* "+var);
     }
 
+    /**
+     * Generate the code for the loading of a variable
+     * @param  String var           The variable
+     * @return        The temporary variable that stocks the value of the variable
+     */
     public String generateVariable(String var){
         String temporaryVar = "%"+instructionCounter ++;
         writer.println(temporaryVar+" = load i32, i32* "+var);
@@ -177,7 +183,10 @@ class CodeGenerator {
         return operandsStack.pop();
     }
 
-
+    /**
+     * Add an element to the condition list
+     * @param String element An element of a condition
+     */
     public void addCondition(String element){
         conditions.add(element);
     }
@@ -278,7 +287,9 @@ class CodeGenerator {
 
 
 
-
+    /**
+     * Generate the code for the Else part
+     */
     public void generateElse(){
         String afterLabel = context.pop();
         String afterElse = "afterIf"+afterIfCounter++;
@@ -350,7 +361,9 @@ class CodeGenerator {
 
 
 
-
+    /**
+     * Generate the code for the while loop
+     */
     public void generateWhile(){
         String whileLabel = "label"+labelCounter++;
         context.push(whileLabel);
@@ -358,13 +371,59 @@ class CodeGenerator {
         writer.println(whileLabel+":");
     }
 
-
+    /**
+     * Generate the code for the end of a while
+     */
     public void generateDoneWhile(){
         String afterWhile = context.pop();
         String whileLabel = context.pop();
         writer.println("br label %"+whileLabel);
         writer.println(afterWhile+":");
 
+    }
+
+
+    public void addForVariables(String var){
+        forVariables.push(var);
+    }
+
+    /**
+     * Generate the code for the for loop
+     * @param String byVar Increment variable
+     * @param String toVar Limit variable
+     */
+    public void generateFor(String byVar, String toVar){
+        String var = forVariables.getTopOfStack();
+        forVariables.push(byVar);
+        String forLabel = "label"+labelCounter++;
+        String afterForLabel = "afterIf"+afterIfCounter++;
+        context.push(forLabel);
+        context.push(afterForLabel);
+        writer.println("br label %"+forLabel);
+        writer.println(forLabel+":");
+        String temporaryVar = generateVariable(var);
+        String booleanVar = "%"+instructionCounter++;
+        writer.println(booleanVar+" = icmp sle i32 "+temporaryVar+","+toVar);
+        String temporaryLabel = "label"+labelCounter++;
+        writer.println("br i1 "+booleanVar+", label %"+temporaryLabel+", label %"+afterForLabel);
+        writer.println(temporaryLabel+":");
+
+    }
+
+    /**
+     * Generate the code for the end of a for loop
+     */
+    public void generateDoneFor(){
+        String byVar = forVariables.pop();
+        String var = forVariables.pop();
+        String temporaryVar = generateVariable(var);
+        String temporaryVar2 = "%"+instructionCounter++;
+        writer.println(temporaryVar2+" = add i32 "+temporaryVar+","+byVar);
+        writer.println("store i32 "+temporaryVar2+", i32* "+var);
+        String afterForLabel = context.pop();
+        String forLabel = context.pop();
+        writer.println("br label %"+forLabel);
+        writer.println(afterForLabel+":");
     }
 
     /**
@@ -382,7 +441,6 @@ class CodeGenerator {
      * @param String var The variable that will read the input
      */
     public void generateRead(String var){
-        addVariables(var);
         String temporaryVar = "%"+instructionCounter++;
         writer.println(temporaryVar+" = call i32 @readInt()");
         writer.println("store i32 "+temporaryVar+", i32* "+var);
