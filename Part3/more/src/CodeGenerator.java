@@ -359,8 +359,6 @@ class CodeGenerator {
     }
 
 
-
-
     /**
      * Generate the code for the while loop
      */

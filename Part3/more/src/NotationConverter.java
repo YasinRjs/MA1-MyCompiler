@@ -6,6 +6,11 @@ import java.util.List;
  */
 class NotationConverter{
 
+    /**
+     * Convert a infix notation to a postfix one
+     * @param  List<String> infixNotation The infix expression
+     * @return              The postfix expression
+     */
     public static List<String> convertInfixToPostfix(List<String> infixNotation){
         List<String> postfixNotation = new ArrayList<String>();
         GenericStack<String> operatorsStack = new GenericStack<String>();

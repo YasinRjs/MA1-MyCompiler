@@ -43,5 +43,5 @@ clean:
 
 jar:
 	javac src/Main.java
-	jar cfm ../dist/part2.jar manifest.mf Main.class
-	java -jar ../dist/part2.jar ../test/Euclid.imp
+	jar cfm ../dist/part3.jar manifest.mf Main.class
+	java -jar ../dist/part3.jar ../test/Euclid.imp
